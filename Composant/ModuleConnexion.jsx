@@ -17,20 +17,24 @@ function Connexion({ show, handleClose }) {
         setUser({ ...User, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e)  => {
         e.preventDefault();
 
-        ConnexionAPI(User)
+      await  ConnexionAPI(User)
             .then((response) => {
                 console.log(response.data);
                 localStorage.setItem('token', response.data.token);
                 handleClose();
-                navigate('/MonCompte');
+                if (response) {
+                    navigate('/MonCompte'); 
+                }
+                
             })
             .catch((error) => {
                 console.error('Erreur lors de la connexion:', error);
                 alert(' Veuillez vérifier vos identifiants.');
             });
+            
     };
 
     return (

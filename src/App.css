@@ -52,7 +52,7 @@
     background-position: center; /* Centrer l'image */
     background-repeat: no-repeat; /* Empêche les répétitions */
     
-    height: 100vh; /* 100% de la hauteur de la fenêtre */
+    height: 80vh; /* 100% de la hauteur de la fenêtre */
     border-radius: 5%;
 }
 
@@ -146,7 +146,28 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     background-color: #ff4dffa7;
 
 }
+.sizeascii{
+    font-size: 150%;
+    margin-top: -7px;
+}
 
+.footer {
+    background-color: #000; /* Fond noir */
+    color: white; /* Texte blanc */
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .footer a {
+    color: white; /* Lien en blanc */
+    transition: color 0.3s;
+  }
+  
+  .footer a:hover {
+    color: #ff00ff; /* Couleur rose vif au survol */
+  }
+  
+/* ////////////////////////////////////RESPONSIVE///////////////////////////////////////////////// */
 @media screen and (max-width: 1000px)  {
 
 
@@ -174,5 +195,10 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     .ajoutBoutton{
      
         font-size: 80%;
+    }
+    .logout{
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
     }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Container, InputGroup, Form, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import InscriptionAPI from "../src/Services/InscriptionService";
+import InscriptionService from "../src/Services/InscriptionService";
 
 const Inscription = () => {
   const [errorMessage, setErrorMessage] = useState(''); // message d'erreur
@@ -27,8 +27,8 @@ const Inscription = () => {
           setErrorMessage('Les mots de passe ne sont pas identiques');
           return;
         }
-        InscriptionAPI(User);
-        navigate('/Connexion');
+        InscriptionService.InscriptionAPI(User);
+        navigate('/');
       };
     
       return (

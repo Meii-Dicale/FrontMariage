@@ -10,6 +10,7 @@ import AuthServices from './Services/AuthServices';
 import Authcontext from './Context/Authcontext';
 import HomePage from '../Pages/HomePage';
 import BackgroundVideo from '../Composant/BackGroundVideo';
+import Footer from '../Composant/Footer';
 
 
 function App() {
@@ -58,6 +59,7 @@ useEffect(() => {
     </BrowserRouter>
     </Authcontext.Provider>
     
+    <Footer></Footer>
     </> 
     )
 

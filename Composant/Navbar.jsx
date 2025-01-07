@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Connexion from './ModuleConnexion';
 import { useContext, useState } from 'react';
 import Authcontext from '../src/Context/Authcontext';
+import AuthServices from '../src/Services/AuthServices';
 
 const NavBar = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -23,7 +24,12 @@ const NavBar = () => {
               <Nav.Link  href="#Photographe">Photographe</Nav.Link>
               <Nav.Link href="#Photobooth">PhotoBooth</Nav.Link>
               <Nav.Link href="#Guest">Invités</Nav.Link>
-              {user && user.IdUser ?(<Nav.Link href="/MonCompte">Mon Compte</Nav.Link>) : (<Nav.Link onClick={handleShow}>Connexion</Nav.Link>)}
+              {user && user.IdUser ?(
+                <div className='d-flex logout'>
+                <Nav.Link href="/MonCompte">Mon Compte</Nav.Link>
+                <Nav.Link className='sizeascii' onClick={AuthServices.logout}>⏼</Nav.Link>
+                </div>
+                 ) : (<Nav.Link onClick={handleShow}>Connexion</Nav.Link>)}
             </Nav>
           </Navbar.Collapse>
         </Container>
