@@ -1,17 +1,12 @@
-/* body {
-    background-image: url(../Images/fondAnime.mp4);
-    background-size: 130%;
-    background-attachment: fixed; 
 
-} */
-
+/* /////////////////////////// Video fond du site /////////////////////////// */
 .video-background {
-    position: fixed; /* La vidéo reste fixe par rapport à la fenêtre */
+    position: fixed; 
     top: 0;
     left: 0;
-    width: 100%; /* La largeur couvre tout l'écran */
-    height: 100%; /* La hauteur couvre tout l'écran */
-    z-index: -1; /* Place la vidéo derrière le contenu */
+    width: 100%; 
+    height: 100%; 
+    z-index: -1; 
     overflow: hidden; /* Cache tout débordement de la vidéo */
 
   }
@@ -21,16 +16,108 @@
     min-height: 100%; /* La hauteur minimale de la vidéo remplit l'écran */
     object-fit: cover; /* Adapte la vidéo pour couvrir l'écran sans déformation */
   }
-  
-  .content {
-    position: relative; /* Le contenu reste au-dessus de la vidéo */
-    z-index: 1;
-    color: white;
-    text-align: center;
-    padding: 50px;
-    z-index: -10;
-  }
 
+  /*/////////////////////////// Formulaire du livre d'or///////////////////////////*/
+  .bookVideo-container {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .bookVideo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .bookVideo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+    z-index: 1;
+    filter: blur(10px);
+    animation: flicker 2s infinite; /* Scintillement */
+    pointer-events: none;
+  }
+  
+  .bookVideo video {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .overlay-container {
+    position: absolute; /* Superpose le conteneur */
+    z-index: 10; /* Au-dessus de la vidéo */
+    display: flex; /* Aligne les enfants horizontalement */
+    width: 90%; /* Occupe toute la largeur */
+    height: 90%; /* Occupe toute la hauteur */
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    justify-content: space-evenly;
+    padding: 20px;
+    gap: 20px; /* Espacement entre les éléments */
+  }
+  
+  .message-display-container {
+    flex: 0.3; /* 50% de la largeur de overlay-container */
+    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex; /* Flexbox pour centrer les éléments */
+    flex-direction: row;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    gap: 10px; /* Espacement entre les éléments */
+  }
+  .form-overlay {
+    flex: 0.6; /* 50% de la largeur de overlay-container */
+    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px; /* Largeur maximale pour le formulaire */
+    display: flex; /* Flexbox pour centrer les éléments */
+    flex-direction: column;
+    gap: 20px; /* Espacement entre les éléments */
+    text-align: center;
+  
+  }
+  .btn-pink {
+    background-color: #ff4dff; /* Rose vif */
+    border-color: #ff4dff;
+    color: white;
+  }
+  .btn-pink:hover {
+    background-color: #e600e6; /* Rose foncé */
+    border-color: #e600e6;
+  }
+  .message-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  /* ///////////////////////////Apparence Nav barre ///////////////////////////*/
+  
 .transparenceNav {
     background-color: rgba(255, 255, 255, 0.15) !important; /* Important pour passer au dessus de bootstrap */
   }
@@ -46,6 +133,8 @@
       0 0 80px #ff4dff;
       
 }
+/* ///////////////////////////borne d'arcade de la page mon compte ///////////////////////////*/
+
 .borneArcade{
     background-image: url(../Images/arcade.png) ;
     background-size: cover; /* L'image couvre toute la div */
@@ -132,6 +221,7 @@
 https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
  */
 
+ /*/////////////////////////// Module de connexion/////////////////////////// */ 
 .ModalColor{
     background-color: #551055e2;
     color: #000000;
@@ -150,6 +240,7 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     font-size: 150%;
     margin-top: -7px;
 }
+/* Footer */
 
 .footer {
     background-color: #000; /* Fond noir */
@@ -189,7 +280,7 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
         
     }
     .neon-sign{
-        font-size: 1rem;
+        font-size: 30px;
         height: 10vh;
     }
     .ajoutBoutton{

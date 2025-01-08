@@ -34,7 +34,6 @@ function Connexion({ show, handleClose }) {
                 console.error('Erreur lors de la connexion:', error);
                 alert(' Veuillez vérifier vos identifiants.');
             });
-            
     };
 
     return (

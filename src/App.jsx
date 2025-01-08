@@ -11,6 +11,7 @@ import Authcontext from './Context/Authcontext';
 import HomePage from '../Pages/HomePage';
 import BackgroundVideo from '../Composant/BackGroundVideo';
 import Footer from '../Composant/Footer';
+import GuestBook from '../Pages/GuestBook';
 
 
 function App() {
@@ -55,6 +56,7 @@ useEffect(() => {
       <Route path='/' element={<HomePage></HomePage>}></Route>
       <Route path='/Inscription' element={<Inscription/>}></Route>
       <Route path='/MonCompte' element={<MonCompte/>}></Route>
+      <Route path='/LivreDor' element={<GuestBook/>}></Route>
       </Routes>
     </BrowserRouter>
     </Authcontext.Provider>

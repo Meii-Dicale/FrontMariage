@@ -55,6 +55,9 @@ const MonCompte = () => {
       console.error("Erreur lors de la suppression du compte :", error);
     }
   };
+  const handleNavigateBook = () => {
+    navigate('/LivreDor');
+  }
 
   useEffect(() => {
     if (user) {
@@ -63,9 +66,9 @@ const MonCompte = () => {
   }, [user, changeInfo]);
   
 
-  if (!user || !UserInfo.NameUser) {
-    return <div>Chargement...</div>;
-  }
+//   if (!user || !UserInfo.NameUser) {
+//     return <div>Chargement...</div>;
+//   }
   return (
     <>
       <Container className="d-flex justify-content-center moncompte">
@@ -147,8 +150,8 @@ const MonCompte = () => {
             <span>Accès V.I.P</span>
           </div>
           <div className="bouttonPhoto d-flex flex-column">
-            <Button className="mt-5 ajoutBoutton">Ajouter mes photos</Button>
-            <Button className="mt-5 ajoutBoutton">Écrire dans le livre d'or</Button>
+            <Button className="mt-5 ajoutBoutton" >Ajouter mes photos</Button>
+            <Button className="mt-5 ajoutBoutton"onClick={handleNavigateBook}>Écrire dans le livre d'or</Button>
           </div>
         </div>
       </Container>
