@@ -12,6 +12,8 @@ import HomePage from '../Pages/HomePage';
 import BackgroundVideo from '../Composant/BackGroundVideo';
 import Footer from '../Composant/Footer';
 import GuestBook from '../Pages/GuestBook';
+import AjoutPhoto from '../Pages/AjouterPhoto'; 
+import PhotoInvite from '../Pages/InvitePhotos';
 
 
 function App() {
@@ -45,6 +47,7 @@ useEffect(() => {
 }, []);
   return(
     <>
+    <div className='App'>
     <BackgroundVideo/>
     
     <Authcontext.Provider
@@ -57,11 +60,14 @@ useEffect(() => {
       <Route path='/Inscription' element={<Inscription/>}></Route>
       <Route path='/MonCompte' element={<MonCompte/>}></Route>
       <Route path='/LivreDor' element={<GuestBook/>}></Route>
+      <Route path='/AjoutPhoto' element={<AjoutPhoto/>}></Route>
+      <Route path='/InvitePhotos' element={<PhotoInvite/>}></Route>
       </Routes>
     </BrowserRouter>
     </Authcontext.Provider>
     
     <Footer></Footer>
+    </div>
     </> 
     )
 

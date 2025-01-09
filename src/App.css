@@ -141,8 +141,8 @@
     background-position: center; /* Centrer l'image */
     background-repeat: no-repeat; /* Empêche les répétitions */
     
-    height: 80vh; /* 100% de la hauteur de la fenêtre */
-    border-radius: 5%;
+    height: 80vh; 
+  
 }
 
 .neon-sign {
@@ -152,7 +152,7 @@
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 2px;
-    height: 15vh;
+    height: 25vh;
 
   
     /* Ajout des effets de néon */
@@ -240,13 +240,20 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     font-size: 150%;
     margin-top: -7px;
 }
-/* Footer */
-
+/* ///////////////////////:Footer ///////////////////*/
+.App {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
 .footer {
     background-color: #000; /* Fond noir */
     color: white; /* Texte blanc */
     font-size: 0.9rem;
     margin: 0;
+    margin-top: auto;
+    
   }
   
   .footer a {
@@ -257,6 +264,28 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
   .footer a:hover {
     color: #ff00ff; /* Couleur rose vif au survol */
   }
+
+/* /////////////////// Galerie Invite /////////////////// */
+.galeriePhotoInvite{
+  max-width: 50%;
+}
+
+.container-invite{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
+  
+}
+/*/////////////////////////// Home PAGE ////////////////////////// */
+
+.carousel-photo {
+  max-width: 100%;
+  max-height: 500px; /* Définir une hauteur maximale */
+  object-fit: contain; /* Permet d'ajuster l'image sans la déformer */
+  margin: 0 auto; /* Centrer l'image dans son conteneur */
+}
+
   
 /* ////////////////////////////////////RESPONSIVE///////////////////////////////////////////////// */
 @media screen and (max-width: 1000px)  {
@@ -281,7 +310,7 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     }
     .neon-sign{
         font-size: 30px;
-        height: 10vh;
+        height: 12vh;
     }
     .ajoutBoutton{
      
@@ -291,5 +320,12 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
         display: flex;
         flex-direction: column;
         gap: 50px;
+    }
+    .overlay-container{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .bookVideo{
+        visibility: hidden;
     }
 }

@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../src/App.css";
+import { fetchMessagesAPI } from "../src/Services/GuestBookService";
 
 const Footer = () => {
-  // Exemple de citations
-  const quotes = [
-    "La simplicité est la sophistication suprême. - Léonard de Vinci",
-    "Le succès n'est pas final, l'échec n'est pas fatal : c'est le courage de continuer qui compte. - Winston Churchill",
-    "L'imagination est plus importante que le savoir. - Albert Einstein",
-  ];
+  const [messages, setMessages] = useState([]);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await fetchMessagesAPI();
+      setMessages(response.data || []); // Assurez-vous que `response.data` est un tableau
+      console.log(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des messages :", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
   // Sélection aléatoire d'une citation
-  const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  const randomQuote =
+    messages.length > 0
+      ? messages[Math.floor(Math.random() * messages.length)]
+      : null;
 
   return (
     <footer className="footer bg-black text-white py-4">
@@ -18,7 +31,15 @@ const Footer = () => {
         <div className="row">
           {/* Section Citations */}
           <div className="col-md-4 text-center">
-            <p>{randomQuote}</p>
+            {randomQuote ? (
+              <p>
+                "{randomQuote.TextGuestBook}" <br />
+                <small>{randomQuote.NameUser}</small>
+                <small> , {randomQuote.RelationUser}</small>
+              </p>
+            ) : (
+              <p>Laissez vite un message dans le livre d'or !</p>
+            )}
           </div>
 
           {/* Section CGU */}

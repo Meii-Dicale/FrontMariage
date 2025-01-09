@@ -23,7 +23,7 @@ const NavBar = () => {
             <Nav className="ms-auto gap-5">
               <Nav.Link  href="#Photographe">Photographe</Nav.Link>
               <Nav.Link href="#Photobooth">PhotoBooth</Nav.Link>
-              <Nav.Link href="#Guest">Invités</Nav.Link>
+              <Nav.Link href="/InvitePhotos">Invités</Nav.Link>
               {user && user.IdUser ?(
                 <div className='d-flex logout'>
                 <Nav.Link href="/MonCompte">Mon Compte</Nav.Link>

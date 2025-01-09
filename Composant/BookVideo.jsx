@@ -8,7 +8,7 @@ const BookVideo = () => {
       <div className="bookVideo">
         <video autoPlay muted playsInline>
           {/* <source src="/Images/book.mp4" type="video/mp4" /> */}
-          <source src="./Images/sansfond.mov" type="video/quicktime" />
+          <source src="./Images/fondlivre.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>

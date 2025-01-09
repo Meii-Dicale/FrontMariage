@@ -58,6 +58,9 @@ const MonCompte = () => {
   const handleNavigateBook = () => {
     navigate('/LivreDor');
   }
+  const handleNavigateMedia = () => {
+    navigate('/AjoutPhoto');
+  }
 
   useEffect(() => {
     if (user) {
@@ -147,10 +150,12 @@ const MonCompte = () => {
 
         <div className="d-flex flex-column align-items-center justify-content-center ">
           <div className="neon-sign d-flex mt-5 align-items-center justify-content-center">
-            <span>Accès V.I.P</span>
+            <span>Accès V.I.P <br />
+            アクセス
+            </span>
           </div>
           <div className="bouttonPhoto d-flex flex-column">
-            <Button className="mt-5 ajoutBoutton" >Ajouter mes photos</Button>
+            <Button className="mt-5 ajoutBoutton" onClick={handleNavigateMedia}>Ajouter mes photos</Button>
             <Button className="mt-5 ajoutBoutton"onClick={handleNavigateBook}>Écrire dans le livre d'or</Button>
           </div>
         </div>

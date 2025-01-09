@@ -17,23 +17,26 @@ function Connexion({ show, handleClose }) {
         setUser({ ...User, [name]: value });
     };
 
-    const handleSubmit = async (e)  => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const response = await ConnexionAPI(User)
+            console.log(response.data);
+            localStorage.setItem('token', response.data.token);
+            handleClose();
+            
+            if (response) {
+                navigate('/MonCompte');
+                window.location.reload();
+            }
 
-      await  ConnexionAPI(User)
-            .then((response) => {
-                console.log(response.data);
-                localStorage.setItem('token', response.data.token);
-                handleClose();
-                if (response) {
-                    navigate('/MonCompte'); 
-                }
-                
-            })
-            .catch((error) => {
+        }
+        catch {
+            (error) => {
                 console.error('Erreur lors de la connexion:', error);
                 alert(' Veuillez vérifier vos identifiants.');
-            });
+            }
+        };
     };
 
     return (
