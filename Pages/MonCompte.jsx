@@ -9,6 +9,7 @@ const MonCompte = () => {
   const [changeInfo, setChangeInfo] = useState(false);
   const [UserInfo, setUserInfo] = useState({});
   const [formData, setFormData] = useState({});
+  const [phoneError, setPhoneError] = useState(''); 
   const navigate = useNavigate();
 
   // Récupérer les info utilisateur
@@ -26,11 +27,18 @@ const MonCompte = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "TelUser") {
+      if (/^\d*$/.test(value)) { // Vérifie si la saisie est uniquement composée de chiffres
+        setFormData({ ...formData, [name]: value });
+        setPhoneError(''); // Réinitialise le message d'erreur si la saisie est valide
+      } else {
+        setPhoneError('Veuillez saisir uniquement des chiffres.');
+      }
+    } else {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
-  };
+    }))}}
 
   const handleSaveChanges = async () => {
     try {
@@ -103,7 +111,11 @@ const MonCompte = () => {
                   name="TelUser"
                   value={formData.TelUser }
                   onChange={handleInputChange}
+                  id="TelUser"
+                  required
+                  maxLength={10}
                 />
+                
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Relation avec les mariés</Form.Label>
@@ -150,10 +162,15 @@ const MonCompte = () => {
 
         <div className="d-flex flex-column align-items-center justify-content-center ">
           <div className="neon-sign d-flex mt-5 align-items-center justify-content-center">
-            <span>Accès V.I.P <br />
+            <span >Accès V.I.P <br />
             アクセス
             </span>
           </div>
+          {user.RoleUser === 1 && (         <div className="secret-sign d-flex mt-2 align-items-center justify-content-center">
+            <a className="secretlink" href="/secretPage"> Accès Secret
+            
+            </a>
+          </div>)}
           <div className="bouttonPhoto d-flex flex-column">
             <Button className="mt-5 ajoutBoutton" onClick={handleNavigateMedia}>Ajouter mes photos</Button>
             <Button className="mt-5 ajoutBoutton"onClick={handleNavigateBook}>Écrire dans le livre d'or</Button>

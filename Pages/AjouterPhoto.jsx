@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Authcontext from "../src/Context/Authcontext";
-import UploadPhotoAPI from "../src/Services/UploadPhotosService";
+import UploadPhotoAPI, { DeletePhotoAPI, GetMesPhotosAPI } from "../src/Services/UploadPhotosService";
 
 const AjoutPhoto = () => {
     const [photos, setPhotos] = useState([]);
+    const [mesPhotos, setMesPhotos] = useState([]);
     const [previews, setPreviews] = useState([]);
     const [sendToMarried, setSendToMarried] = useState([]);
     const { user } = useContext(Authcontext);
@@ -56,20 +57,55 @@ const AjoutPhoto = () => {
             setPhotos([]);
             setPreviews([]);
             setSendToMarried([]);
+            fetchMesPhotos(); 
         } catch (error) {
             console.error("Erreur lors du téléchargement des photos :", error);
             alert("Une erreur est survenue lors du téléchargement.");
         }
     };
 
-    // Suppression d'une photo
+    // Suppression d'une photo durant l'upload
     const handleRemovePhoto = (index) => {
         setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
         setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
         setSendToMarried((prev) => prev.filter((_, i) => i !== index));
     };
 
+    // Récupération des photos du connecté
+
+    const fetchMesPhotos = async () => {
+      try {
+        const response = await GetMesPhotosAPI(user.IdUser);
+        setMesPhotos(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des photos :", error);
+      }
+    }
+
+    // Supprimer les photos 
+    const handleDeletePhoto = async (IdMedia) => {
+        try {
+            const response = await DeletePhotoAPI(IdMedia)
+
+            console.log("Photo supprimée avec succès :", response.data);
+            alert("Photo supprimée avec succès!");
+            fetchMesPhotos();
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la photo :", error);
+            alert("Une erreur est survenue lors de la suppression.");
+        }
+    };
+
+    // Mise à jour des photos
+    
+
+    useEffect(() => {
+        fetchMesPhotos();
+    }, [])
+
     return (
+      <>
         <div className="container mt-5 whiteText">
             <h2>Ajouter des Photos</h2>
             <small className="whiteText">Si vous cochez la case sous la photo, celle-ci sera visiblement uniquement par les mariés.</small>
@@ -130,6 +166,35 @@ const AjoutPhoto = () => {
                 </button>
             </form>
         </div>
+        <div className="container mt-5 whiteText">
+          <h2>Mes Photos</h2>
+          <div className="d-flex flex-wrap">
+            {mesPhotos.map((photo) => (
+              <div key={photo.IdMedia} className="m-2 position-relative" style={{ width: "150px" }}>
+                <img
+                  src={`http://${import.meta.env.VITE_IP}:3001/api/Media/${photo.PathMedia}`}
+                  alt={`Photo ${photo.IdMedia}`}
+                  className="img-thumbnail"
+                  style={{ width: "100%", height: "auto" }}
+                />
+                      <button
+                                    type="button"
+                                    className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                    onClick={() => handleDeletePhoto(photo.IdMedia)}
+                                >
+                                    &times;
+                                </button>
+                {photo.PublicMedia === 1 && (
+                  <small className="badge bg-secondary position-absolute bottom-0 end-0">
+                    Reservé pour les mariés
+                  </small>
+                  
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        </>
     );
 };
 

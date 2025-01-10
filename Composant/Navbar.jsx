@@ -20,9 +20,9 @@ const NavBar = () => {
           <Navbar.Brand href="/">Lorelei & Thomas - 13 Juin 2026</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto gap-5">
-              <Nav.Link  href="#Photographe">Photographe</Nav.Link>
-              <Nav.Link href="#Photobooth">PhotoBooth</Nav.Link>
+            <Nav className="ms-auto gap-5 mobile-nav">
+              <Nav.Link  href="/Photographe">Photographe</Nav.Link>
+              <Nav.Link href="/Photobooth">PhotoBooth</Nav.Link>
               <Nav.Link href="/InvitePhotos">Invités</Nav.Link>
               {user && user.IdUser ?(
                 <div className='d-flex logout'>

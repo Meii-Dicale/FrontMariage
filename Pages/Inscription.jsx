@@ -77,6 +77,7 @@ const Inscription = () => {
           value={User.TelUser}
           onChange={handleChange}
           required
+          maxLength={10}
         />
         {phoneError && <small className="text-danger">{phoneError}</small>}
       </div>

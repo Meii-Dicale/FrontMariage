@@ -20,7 +20,7 @@ const HomePage = () => {
         const fetchPublicPhotos = async () => {
             try {
                 const response = await GetPublicPhotosAPI();
-                const shuffledPhotos = shuffleArray(response.data || []);
+                const shuffledPhotos = shuffleArray(response.data);
                 setPhotos(shuffledPhotos);
             } catch (error) {
                 setError('Failed to fetch photos');
@@ -29,12 +29,35 @@ const HomePage = () => {
         };
 
         fetchPublicPhotos();
-    }, []); // Le tableau vide signifie que cela s'exécute uniquement au montage
+    }, []);
+
+   // faire défiler le carousel avec les fleches clavier
+
+
+
+//    useEffect(() => {
+//     const handleKeyDown = (event) => {
+//         if (carouselRef.current) {
+//             if (event.key === 'ArrowLeft') {
+//                 carouselRef.current.prev(); // Défiler vers la gauche
+//             } else if (event.key === 'ArrowRight') {
+//                 carouselRef.current.next(); // Défiler vers la droite
+//             }
+//         }
+//     };
+
+//     // Ajouter l'écouteur d'événements
+//     window.addEventListener('keydown', handleKeyDown);
+
+//     // Nettoyer l'écouteur d'événements à la désactivation du composant
+//     return () => {
+//         window.removeEventListener('keydown', handleKeyDown);
+//     };
+// }, []);
 
     return (
         <>
-            {error && <div className="alert alert-danger">{error}</div>}
-            <Carousel interval={3000} className='mt-5'>
+            <Carousel  interval={3000} className='mt-5'>
                 {photos.map((photo, index) => (
                     <Carousel.Item key={index}>
                         <img

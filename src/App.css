@@ -144,6 +144,36 @@
     height: 80vh; 
   
 }
+.secretlink{
+  text-decoration: none;
+}
+.secret-sign{
+  font-size: 4rem;
+  font-weight: bold;
+  color: #6f0a6f; /* Couleur de base du texte */
+  text-align: center;
+  height: 10vh;
+   /* Ajout des effets de néon */
+   text-shadow: 
+   0 0 5px #ff00ff, 
+   0 0 10px #ff00ff, 
+   0 0 20px #ff00ff, 
+   0 0 40px #ff00ff, 
+   0 0 80px #ff00ff;
+
+ /* Effet néon sur le contour de la div */
+ border: 3px solid #ff00ff;
+ padding: 20px;
+ border-radius: 10px;
+ box-shadow: 
+   0 0 5px #ff00ff, 
+   0 0 10px #ff00ff, 
+   0 0 20px #ff00ff, 
+   0 0 40px #ff00ff, 
+   0 0 80px #ff00ff;
+
+ animation: flicker 2s infinite;
+}
 
 .neon-sign {
     font-size: 4rem;
@@ -286,7 +316,59 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
   margin: 0 auto; /* Centrer l'image dans son conteneur */
 }
 
-  
+/* ////////////////////PAGE INVITE && Photographe //////////////////*/
+.icon{
+  border-radius: 50%;
+  margin-bottom: 2vh;
+}
+.container-invite {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  justify-content: center; /* Centre les colonnes */
+}
+
+.photo-thumbnail {
+  width: 100%; /* Remplit la colonne */
+  aspect-ratio: 1; /* Assure un format carré */
+  object-fit: cover; /* Coupe l'image pour remplir le carré */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.photo-thumbnail:hover {
+  transform: scale(1.05); /* Zoom léger au survol */
+}
+
+.photo-grid:has(.photo-thumbnail:only-child) {
+  grid-template-columns: 150px; /* Une seule colonne pour une seule photo */
+  justify-content: center; /* Centre la photo */
+}
+
+.photo-grid.single-photo {
+  grid-template-columns: 150px; /* Compatibilité JS */
+  justify-content: center;
+}
+
+
+
+.photo-large {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Garde le ratio original de la photo */
+}
+.taille {
+  height: 70vh;
+}
+
+
 /* ////////////////////////////////////RESPONSIVE///////////////////////////////////////////////// */
 @media screen and (max-width: 1000px)  {
 
@@ -327,5 +409,10 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     }
     .bookVideo{
         visibility: hidden;
+    }
+    .mobile-nav{
+      display: flex;
+      
+ 
     }
 }

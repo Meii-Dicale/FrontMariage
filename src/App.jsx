@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import NavBar from '../Composant/Navbar';
 import Inscription from '../Pages/Inscription';
@@ -14,6 +14,9 @@ import Footer from '../Composant/Footer';
 import GuestBook from '../Pages/GuestBook';
 import AjoutPhoto from '../Pages/AjouterPhoto'; 
 import PhotoInvite from '../Pages/InvitePhotos';
+import PhotographePage from '../Pages/PhotographePage';
+import PhotoBooth from '../Pages/Photobooth';
+import SecretPage from '../Pages/SecretPage';
 
 
 function App() {
@@ -62,6 +65,9 @@ useEffect(() => {
       <Route path='/LivreDor' element={<GuestBook/>}></Route>
       <Route path='/AjoutPhoto' element={<AjoutPhoto/>}></Route>
       <Route path='/InvitePhotos' element={<PhotoInvite/>}></Route>
+      <Route path='/Photographe' element={<PhotographePage/>}></Route>
+      <Route path='/PhotoBooth' element={<PhotoBooth/>}></Route>
+      <Route path='/secretPage' element={<SecretPage/>}></Route>
       </Routes>
     </BrowserRouter>
     </Authcontext.Provider>
