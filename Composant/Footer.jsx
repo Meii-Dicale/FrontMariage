@@ -30,11 +30,11 @@ const Footer = () => {
       <div className="container">
         <div className="row">
           {/* Section Citations */}
-          <div className="col-md-4 text-center">
+          <div className="col-md-9 text-center">
             {randomQuote ? (
               <p>
-                "{randomQuote.TextGuestBook}" <br />
-                <small>{randomQuote.NameUser}</small>
+                "{randomQuote.TextGuestBook}" 
+                <small> {randomQuote.NameUser}</small>
                 <small> , {randomQuote.RelationUser}</small>
               </p>
             ) : (
@@ -43,14 +43,14 @@ const Footer = () => {
           </div>
 
           {/* Section CGU */}
-          <div className="col-md-4 text-center">
+          <div className="col-md-1 text-center">
             <a href="/cgu" className="text-white text-decoration-none">
-              Conditions Générales d'Utilisation
+              CGU
             </a>
           </div>
 
           {/* Section Copyright */}
-          <div className="col-md-4 text-center">
+          <div className="col-md-2 text-center">
             <p>&copy; Lorelei WANNYN 2025-2026</p>
           </div>
         </div>

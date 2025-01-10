@@ -1,5 +1,5 @@
 import Carousel from 'react-bootstrap/Carousel';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GetPublicPhotosAPI } from '../src/Services/UploadPhotosService';
 
 // Fonction pour mélanger un tableau
@@ -14,8 +14,9 @@ const shuffleArray = (array) => {
 const HomePage = () => {
     const [photos, setPhotos] = useState([]);
     const [error, setError] = useState(null);
+    const carouselRef = useRef(null); // Référence pour le carousel
 
-    // Fetch les photos publics
+    // Fetch les photos publiques
     useEffect(() => {
         const fetchPublicPhotos = async () => {
             try {
@@ -31,33 +32,30 @@ const HomePage = () => {
         fetchPublicPhotos();
     }, []);
 
-   // faire défiler le carousel avec les fleches clavier
+    // Contrôler le carousel avec les flèches du clavier
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (carouselRef.current) {
+                if (event.key === 'ArrowLeft') {
+                    carouselRef.current.prev(); // Défiler vers la gauche
+                } else if (event.key === 'ArrowRight') {
+                    carouselRef.current.next(); // Défiler vers la droite
+                }
+            }
+        };
 
+        // Ajouter l'écouteur d'événements
+        window.addEventListener('keydown', handleKeyDown);
 
-
-//    useEffect(() => {
-//     const handleKeyDown = (event) => {
-//         if (carouselRef.current) {
-//             if (event.key === 'ArrowLeft') {
-//                 carouselRef.current.prev(); // Défiler vers la gauche
-//             } else if (event.key === 'ArrowRight') {
-//                 carouselRef.current.next(); // Défiler vers la droite
-//             }
-//         }
-//     };
-
-//     // Ajouter l'écouteur d'événements
-//     window.addEventListener('keydown', handleKeyDown);
-
-//     // Nettoyer l'écouteur d'événements à la désactivation du composant
-//     return () => {
-//         window.removeEventListener('keydown', handleKeyDown);
-//     };
-// }, []);
+        // Nettoyer l'écouteur d'événements à la désactivation du composant
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     return (
         <>
-            <Carousel  interval={3000} className='mt-5'>
+            <Carousel ref={carouselRef} interval={3000} className='mt-5'>
                 {photos.map((photo, index) => (
                     <Carousel.Item key={index}>
                         <img

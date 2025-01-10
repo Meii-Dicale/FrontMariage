@@ -27,7 +27,7 @@ const PhotoBooth = () => {
     }
     return (
         <>
-{photos.lenght > 0 ?(<div> Cool des photos</div>):( <div>Pas encore de photos ? Va vite au photomaton pour le tester ! </div>)}
+{photos.lenght > 0 ?(<div className="d-flex whiteText justify-content-center align-items-center taille" > Cool des photos</div>):( <div className="d-flex whiteText justify-content-center align-items-center taille">Pas encore de photos ? Va vite au photomaton pour le tester ! </div>)}
         </>
     );
 }

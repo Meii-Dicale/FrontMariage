@@ -105,6 +105,8 @@ const GuestBook = () => {
         required
         onChange={handleChange}
         value={message.TextGuestBook}
+        maxLength={250}
+        
       ></textarea>
     </div>
 

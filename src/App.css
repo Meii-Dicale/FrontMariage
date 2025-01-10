@@ -133,6 +133,11 @@
       0 0 80px #ff4dff;
       
 }
+.mobile-nav .nav-link {
+  color: white;
+  
+}
+
 /* ///////////////////////////borne d'arcade de la page mon compte ///////////////////////////*/
 
 .borneArcade{
@@ -401,7 +406,7 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     .logout{
         display: flex;
         flex-direction: column;
-        gap: 50px;
+       
     }
     .overlay-container{
         display: flex;
@@ -410,9 +415,25 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     .bookVideo{
         visibility: hidden;
     }
-    .mobile-nav{
+    .mobile-nav .nav-link {
+      margin-bottom: 0px; /* Espacement entre les liens */
       display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      color: white; /* Couleur du texte */
+      background-color: transparent; /* Couleur de fond */
+      border: none; /* Supprimer le contour */
+      transition: background-color 0.3s ease-in-out;
+      cursor: pointer;
       
- 
     }
+    .mobile-nav .navbar-nav{
+      display: flex;
+      gap: 0 !important;
+    
+    }
+
+
+
 }
