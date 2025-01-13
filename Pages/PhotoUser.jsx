@@ -1,64 +1,56 @@
 import { useContext, useEffect, useState } from "react";
-import { GetPublicPhotosAPI } from "../src/Services/UploadPhotosService";
-import { Button, Container, Form } from "react-bootstrap";
-import Modal from 'react-bootstrap/Modal';
-import { Link } from "react-router-dom";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
-import AjouterCommentaireAPI, { DeleteCommentaireAPI, GetCommentaireAPI } from "../src/Services/Commentaires";
+import { GetPhotoByUserAPI } from "../src/Services/UploadPhotosService";
+import { Button, Container, Form, Modal } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { FacebookShareButton, FacebookIcon, FacebookMessengerIcon, FacebookMessengerShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton} from "react-share";
 import Authcontext from "../src/Context/Authcontext";
+import AjouterCommentaireAPI, { DeleteCommentaireAPI, GetCommentaireAPI } from "../src/Services/Commentaires";
 
-const PhotoInvite = () => {
-  const { user } = useContext(Authcontext);
-  const [AllPhotos, setAllPhotos] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [data, setData] = useState({
-    IdMedia: null,
-    TextCommentaire: "",
-    IdUser: user?.IdUser,
-  });
+const PhotoUser = () => {
+    const [AllPhotos, setAllPhotos] = useState([]);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const IdUser = useParams()
+    const { user } = useContext(Authcontext);
+    const [comments, setComments] = useState([]);
+    const [data, setData] = useState({
+      IdMedia: null,
+      TextCommentaire: "",
+      IdUser: user?.IdUser,
+    });
 
-  const fetchAllPhoto = async () => {
-    try {
-      const response = await GetPublicPhotosAPI();
-      setAllPhotos(response.data || []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const fetchAllPhoto = async () => {
+        try {
+          const response = await GetPhotoByUserAPI(IdUser.IdUser); 
+          console.log(IdUser.IdUser)
+          console.log(response.data);
+          setAllPhotos(response.data );
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      const handleShow = (photo) => {   
+        setSelectedPhoto(photo);
+        setShowModal(true);
+      };
+    
+      const handleClose = () => {
+        setShowModal(false);
+        setSelectedPhoto(null);
+      };
 
-  const handleShow = (photo) => {
-    setSelectedPhoto(photo);
-    setData({ ...data, IdMedia: photo.IdMedia });
-    setShowModal(true);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-    setSelectedPhoto(null);
-    setComments([]);
-  };
 
   const fetchComments = async () => {
     if (!selectedPhoto || !selectedPhoto.IdMedia) return;
     try {
       const response = await GetCommentaireAPI(selectedPhoto.IdMedia);
       setComments(response.data.sort((a, b) => a.IdCommentaire - b.IdCommentaire));
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+    
 
   const addComment = async () => {
     console.log(data)
@@ -94,47 +86,47 @@ const PhotoInvite = () => {
     }
 
   }
+      useEffect(() => {
+        fetchAllPhoto();
+      }, []);
+      useEffect(() => {
+        fetchComments();
+      }, [selectedPhoto]);
+    
+      // pour partager sur les réseaux il faut une URL 
+    
+      const getPhotoURL = () => {
+        return selectedPhoto
+          ? `http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`
+          : "";
+      };
+    return(
+        <>
+        
+  
+      
+        {AllPhotos.length >0 ? ( <Container className="container-invite">
+            {AllPhotos.length > 0 ? (<h1 className="whiteText ">Toutes les photos de {AllPhotos[0].NameUser}  </h1> ) : (null)}
 
-
-
-
-  useEffect(() => {
-    fetchAllPhoto();
-  }, []);
-
-  useEffect(() => {
-    fetchComments();
-  }, [selectedPhoto]);
-
-  const getPhotoURL = () => {
-    return selectedPhoto
-      ? `http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`
-      : "";
-  };
-
-  return (
-    <>
-      {AllPhotos.length > 0 ? (
-        <Container className="container-invite">
-          <div className="photo-grid">
-            {AllPhotos.map((photo) => (
-              <img
-                className="photo-thumbnail"
-                key={photo.IdMedia}
-                src={`http://${import.meta.env.VITE_IP}:3001/api/Media/${photo.PathMedia}`}
-                alt=""
-                onClick={() => handleShow(photo)}
-              />
-            ))}
-          </div>
-        </Container>
-      ) : (
-        <span className="d-flex whiteText justify-content-center align-items-center taille">
-          Pas encore de photo ici ? Inscris-toi et télécharge tes photos du mariage !
-        </span>
-      )}
-
-      <Modal show={showModal} onHide={handleClose} dialogClassName="modal-90w" centered>
+            <div className="photo-grid">
+              {AllPhotos.map((photo) => (
+                <img
+                  
+                  className="photo-thumbnail"
+                  key={photo.IdMedia}
+                  src={`http://${import.meta.env.VITE_IP}:3001/api/Media/${photo.PathMedia}`}
+                  alt=""
+                  onClick={() => handleShow(photo)}
+                />
+              ))}
+            </div>
+          </Container>) : ( <span className="d-flex whiteText justify-content-center align-items-center taille">
+                        Pas encore de photo ici ? Inscris-toi et télécharge tes photos du mariage !
+                    </span>)}
+         
+    
+          {/* Modal */}
+          <Modal show={showModal} onHide={handleClose} dialogClassName="modal-90w" centered>
         <Modal.Header className="ModalColor2 icon-zone" closeButton>
           {selectedPhoto && (
             <Modal.Title className="icon-zone">
@@ -204,8 +196,8 @@ const PhotoInvite = () => {
           </WhatsappShareButton>
         </Modal.Title>
       </Modal>
-    </>
-  );
-};
-
-export default PhotoInvite;
+        </>
+    
+    )
+}
+export default PhotoUser

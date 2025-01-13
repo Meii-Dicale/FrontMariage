@@ -19,6 +19,7 @@ import PhotoBooth from '../Pages/Photobooth';
 import SecretPage from '../Pages/SecretPage';
 import ResetPassword from '../Pages/ResetPassword';
 import MdpOublie from '../Pages/MDPoublie';
+import PhotoUser from '../Pages/PhotoUser';
 
 
 function App() {
@@ -72,6 +73,7 @@ useEffect(() => {
       <Route path='/secretPage' element={<SecretPage/>}></Route>
       <Route path='/reset-password/:token' element={<ResetPassword/>}></Route>
       <Route path='/mdpOublie' element={<MdpOublie/>}></Route>
+      <Route path='/photo/:IdUser' element={<PhotoUser/>}></Route>
       </Routes>
     </BrowserRouter>
     </Authcontext.Provider>

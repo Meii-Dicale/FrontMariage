@@ -23,5 +23,8 @@ function GetPrivatePhotoAPI(){
     return axios.get (`http://${import.meta.env.VITE_IP}:3001/api/Media/PhotoPrivee`)
 }
 
+function GetPhotoByUserAPI(IdUser) {
+    return axios.get (`http://${import.meta.env.VITE_IP}:3001/api/Media/UserPhoto/${IdUser}`)
+}
 export default UploadPhotoAPI;
-export {GetPublicPhotosAPI, GetMesPhotosAPI, DeletePhotoAPI, GetPhotosAdminAPI, GetPrivatePhotoAPI};
+export {GetPublicPhotosAPI, GetMesPhotosAPI, DeletePhotoAPI, GetPhotosAdminAPI, GetPrivatePhotoAPI, GetPhotoByUserAPI};

@@ -345,6 +345,7 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
 .photo-commentaires{
   display: flex;
   
+  
 }
 .zone-commentaire{
   display: flex;
@@ -411,6 +412,31 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
 .taille {
   height: 70vh;
 }
+.zone-commentaires{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  margin: 2vh;
+}
+.all-commentaires {
+  max-height: 400px; /* Hauteur maximale pour la zone des commentaires */
+  overflow-y: auto; /* Activer le défilement vertical */
+  padding: 10px; /* Espacement interne */
+  background-color: #f9f9f9; /* Couleur de fond pour la zone des commentaires */
+  border: 1px solid #ddd; /* Bordure pour démarquer la zone */
+  border-radius: 5px; /* Bordure arrondie */
+}
+
+.commentaire{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.modal-90w{
+  max-width: 90%;
+  margin: 0 auto;
+}
 
 
 /* ////////////////////////////////////RESPONSIVE///////////////////////////////////////////////// */
@@ -472,7 +498,16 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
       gap: 0 !important;
     
     }
+    .photo-commentaires{
+      flex-direction: column;
+
+    }
+    .zone-commentaires{
+      max-width: 90%;
+    }
+
 
 
 
 }
+
