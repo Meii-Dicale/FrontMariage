@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../src/App.css";
 import { fetchMessagesAPI } from "../src/Services/GuestBookService";
-
+import CGU from "./CGU";
 const Footer = () => {
   const [messages, setMessages] = useState([]);
+  const [showCGU, setShowCGU] = useState(false);
 
   const fetchMessages = async () => {
     try {
@@ -42,19 +43,25 @@ const Footer = () => {
             )}
           </div>
 
-          {/* Section CGU */}
+          {/* Lien pour afficher les CGU */}
           <div className="col-md-1 text-center">
-            <a href="/cgu" className="text-white text-decoration-none">
+            <a
+              onClick={() => setShowCGU(true)}
+              className="text-white text-decoration-none"
+              style={{ cursor: "pointer" }}
+            >
               CGU
             </a>
           </div>
 
-          {/* Section Copyright */}
           <div className="col-md-2 text-center">
             <p>&copy; Lorelei WANNYN 2025-2026</p>
           </div>
         </div>
       </div>
+
+      {/* Modal CGU */}
+      <CGU show={showCGU} handleClose={() => setShowCGU(false)} />
     </footer>
   );
 };

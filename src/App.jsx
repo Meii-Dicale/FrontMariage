@@ -17,6 +17,8 @@ import PhotoInvite from '../Pages/InvitePhotos';
 import PhotographePage from '../Pages/PhotographePage';
 import PhotoBooth from '../Pages/Photobooth';
 import SecretPage from '../Pages/SecretPage';
+import ResetPassword from '../Pages/ResetPassword';
+import MdpOublie from '../Pages/MDPoublie';
 
 
 function App() {
@@ -45,7 +47,7 @@ useEffect(() => {
     if (!isValid) {
       AuthServices.logout();
     }
-  }, 60000);
+  }, 1800000);
   return () => clearInterval(interval);
 }, []);
   return(
@@ -68,6 +70,8 @@ useEffect(() => {
       <Route path='/Photographe' element={<PhotographePage/>}></Route>
       <Route path='/PhotoBooth' element={<PhotoBooth/>}></Route>
       <Route path='/secretPage' element={<SecretPage/>}></Route>
+      <Route path='/reset-password/:token' element={<ResetPassword/>}></Route>
+      <Route path='/mdpOublie' element={<MdpOublie/>}></Route>
       </Routes>
     </BrowserRouter>
     </Authcontext.Provider>

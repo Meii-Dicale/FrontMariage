@@ -74,13 +74,13 @@ const GuestBook = () => {
     &larr; 
   </button>
 
-  {AllMessages.length > 0 && (
+  {AllMessages.length > 0 ?(
     <div className="message-container">
       <p>{AllMessages[currentIndex]?.TextGuestBook}</p>
       <span>De : {AllMessages[currentIndex]?.NameUser}</span>
       <span> - {AllMessages[currentIndex]?.RelationUser}</span>
     </div>
-  )}
+  ):(<div className="message-container"> Sois vite le premier à laisser un message </div>)}
 
   <button className="btn btn-pink mt-3" onClick={handleNext}>
      &rarr;

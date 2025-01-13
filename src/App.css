@@ -261,6 +261,7 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     background-color: #551055e2;
     color: #000000;
 }
+
 .ModalTransparent {
     opacity: 0.5;
 }
@@ -304,6 +305,13 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
 .galeriePhotoInvite{
   max-width: 50%;
 }
+.icon-zone{
+  display: flex;
+  align-items: center ;
+  justify-content: center;
+  border: none;
+
+}
 
 .container-invite{
   display: flex;
@@ -312,6 +320,37 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
   justify-content: space-around;
   
 }
+.ModalColor2{
+  background-color: #a847a8e2;
+  color: #f6f6f6;
+}
+.photo-large {
+  max-width: 100%;
+  max-height: 80vh; /* Limite la hauteur à 80% de la hauteur de la fenêtre */
+  display: block; /* Centre l'image dans le modal */
+  margin: 0 auto;
+}
+.modal-dialog {
+  max-width: 60%; /* Limite la largeur maximale à 90% de l'écran */
+  margin: auto; /* Centre horizontalement */
+}
+
+.modal-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Évite les espaces inutiles autour de l'image */
+}
+
+.photo-commentaires{
+  display: flex;
+  
+}
+.zone-commentaire{
+  display: flex;
+  flex-direction: column;
+}
+
 /*/////////////////////////// Home PAGE ////////////////////////// */
 
 .carousel-photo {

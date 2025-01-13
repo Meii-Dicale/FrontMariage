@@ -76,6 +76,9 @@ function Connexion({ show, handleClose }) {
                         <Link to="/Inscription" onClick={handleClose}>
                             Je n'ai pas encore de compte
                         </Link>
+                        <Link to="/mdpOublie" onClick={handleClose}>
+                        J'ai oublié mon mot de passe
+                        </Link>
                     </div>
                 </Form>
             </Modal.Body>

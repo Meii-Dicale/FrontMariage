@@ -137,7 +137,7 @@ const Inscription = () => {
 
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
-      <button type="submit" className="btn btn-primary">Envoyer</button>
+      <button type="submit" className="btn ajoutBoutton btn-primary">Envoyer</button>
     </form>
   );
 };
