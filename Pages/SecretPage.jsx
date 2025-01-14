@@ -11,7 +11,6 @@ const SecretPage = () => {
     const fetchAllPhoto = async () => {
       try {
         const response = await GetPrivatePhotoAPI();
-        console.log(response.data)
         setAllPhotos(response.data || []);
       } catch (error) {
         console.error(error);

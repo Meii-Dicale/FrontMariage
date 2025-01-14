@@ -505,6 +505,14 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     .zone-commentaires{
       max-width: 90%;
     }
+    .tailleMobile{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 80vh;
+      padding: 10px;
+      
+    }
 
 
 

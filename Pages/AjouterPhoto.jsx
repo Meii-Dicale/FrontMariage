@@ -52,7 +52,6 @@ const AjoutPhoto = () => {
             // Appeler le service API
             const response = await UploadPhotoAPI(formData);
 
-            console.log("Photos téléchargées avec succès :", response.data);
             alert("Photos téléchargées avec succès !");
             setPhotos([]);
             setPreviews([]);
@@ -77,7 +76,6 @@ const AjoutPhoto = () => {
       try {
         const response = await GetMesPhotosAPI(user.IdUser);
         setMesPhotos(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des photos :", error);
       }
@@ -88,7 +86,6 @@ const AjoutPhoto = () => {
         try {
             const response = await DeletePhotoAPI(IdMedia)
 
-            console.log("Photo supprimée avec succès :", response.data);
             alert("Photo supprimée avec succès!");
             fetchMesPhotos();
         } catch (error) {

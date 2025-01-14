@@ -10,7 +10,6 @@ const Footer = () => {
     try {
       const response = await fetchMessagesAPI();
       setMessages(response.data || []); // Assurez-vous que `response.data` est un tableau
-      console.log(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des messages :", error);
     }

@@ -54,14 +54,12 @@ const PhotoInvite = () => {
     try {
       const response = await GetCommentaireAPI(selectedPhoto.IdMedia);
       setComments(response.data.sort((a, b) => a.IdCommentaire - b.IdCommentaire));
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const addComment = async () => {
-    console.log(data)
     try {
       if (!data.IdMedia || !data.TextCommentaire.trim()) {
         alert("Veuillez sélectionner une photo et saisir un commentaire !");
@@ -82,12 +80,10 @@ const PhotoInvite = () => {
   const handleRemoveComment = async(IdCommentaire) => {
     try {
       const response = await DeleteCommentaireAPI(IdCommentaire)
-      console.log(response)
       if (response.status === 200) {
         fetchComments(); // Rafraîchir les commentaires après suppression
       } else {
         console.error("Erreur lors de la suppression du commentaire");
-        console.log(IdCommentaire)
       }
     } catch (error) {
       

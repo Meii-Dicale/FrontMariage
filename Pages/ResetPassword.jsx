@@ -41,7 +41,6 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log( PasswordUser);
         if (PasswordUser !== confirmPassword) {
             alert("Les mots de passe ne correspondent pas.");
             return;
@@ -49,7 +48,6 @@ const ResetPassword = () => {
 
         try {
             const response = await ResetPasswordAPI(data);
-            console.log(response);
             alert("Votre mot de passe a été réinitialisé avec succès.");
             navigate("/");
             setPasswordUser("");

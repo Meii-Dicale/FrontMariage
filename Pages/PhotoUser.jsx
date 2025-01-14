@@ -22,8 +22,6 @@ const PhotoUser = () => {
     const fetchAllPhoto = async () => {
         try {
           const response = await GetPhotoByUserAPI(IdUser.IdUser); 
-          console.log(IdUser.IdUser)
-          console.log(response.data);
           setAllPhotos(response.data );
         } catch (error) {
           console.error(error);
@@ -53,7 +51,6 @@ const PhotoUser = () => {
     
 
   const addComment = async () => {
-    console.log(data)
     try {
       if (!data.IdMedia || !data.TextCommentaire.trim()) {
         alert("Veuillez sélectionner une photo et saisir un commentaire !");
@@ -74,12 +71,10 @@ const PhotoUser = () => {
   const handleRemoveComment = async(IdCommentaire) => {
     try {
       const response = await DeleteCommentaireAPI(IdCommentaire)
-      console.log(response)
       if (response.status === 200) {
         fetchComments(); // Rafraîchir les commentaires après suppression
       } else {
         console.error("Erreur lors de la suppression du commentaire");
-        console.log(IdCommentaire)
       }
     } catch (error) {
       

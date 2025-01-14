@@ -21,7 +21,6 @@ function Connexion({ show, handleClose }) {
         e.preventDefault();
         try {
             const response = await ConnexionAPI(User)
-            console.log(response.data);
             localStorage.setItem('token', response.data.token);
             handleClose();
             

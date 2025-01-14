@@ -10,7 +10,6 @@ const MdpOublie = () => {
         e.preventDefault(); // Empêche le rechargement de la page
         try {
             const response = await SendMailAPI(data);
-            console.log("Mail envoyé avec succès", response);
             alert("Un lien de réinitialisation a été envoyé à votre adresse mail.");
             setData({ MailUser: "" }); // Réinitialisation du formulaire
             window.location.href = "/"; // Redirection vers la page de connexion

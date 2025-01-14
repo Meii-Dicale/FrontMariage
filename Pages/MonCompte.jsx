@@ -18,7 +18,6 @@ const MonCompte = () => {
       const response = await InscriptionService.UserInfo(user.IdUser);
       setUserInfo(response.data[0]);
       setFormData(response.data[0]); // Initialiser le formulaire
-      console.log(response.data[0]);
     } catch (error) {
       console.error("Erreur lors de la récupération des informations :", error);
     }
@@ -43,7 +42,6 @@ const MonCompte = () => {
   const handleSaveChanges = async () => {
     try {
       const response = await InscriptionService.UpdateUserAPI(formData);
-      console.log("Informations mises à jour :", response.data);
       setUserInfo(response.data); // Mettre à jour les données affichées
       setChangeInfo(false);
 
@@ -55,7 +53,6 @@ const MonCompte = () => {
   const handleDeleteAccount = async () => {
     try {
       const response = await InscriptionService.DeleteUserAPI(user.IdUser);
-      console.log(response);
       localStorage.removeItem("token"); // Supprimer le token de session
       navigate('/'); // Retour à la page de connexion
       

@@ -32,25 +32,37 @@ const Inscription = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Vérification des mots de passe
     if (User.PasswordUser !== User.ConfirmPasswordUser) {
-      setErrorMessage('Les mots de passe ne sont pas identiques');
+      setErrorMessage('Les mots de passe ne sont pas identiques.');
       return;
     }
-
+  
     // Vérification si le champ téléphone contient une erreur
     if (phoneError) {
       setErrorMessage('Veuillez corriger les erreurs avant de soumettre le formulaire.');
       return;
     }
-
-    // Appel de l'API d'inscription
-    InscriptionService.InscriptionAPI(User);
-    navigate('/');
+  
+    try {
+      // Appel de l'API d'inscription
+      const response = await InscriptionService.InscriptionAPI(User);
+  
+      if (response.status === 201) {
+        alert('Inscription réalisée avec succès.');
+        navigate('/');
+      } else {
+        alert(response.message );
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription :', error.response.data.message);
+      setErrorMessage(error.response.data.message);
+    }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="container mt-4 whiteText">

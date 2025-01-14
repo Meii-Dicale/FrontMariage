@@ -19,7 +19,7 @@ const PhotoBooth = () => {
     if (!user.IdUser) {
         return (
             <>         
-                <div className="d-flex whiteText justify-content-center align-items-center taille"> Si tu veux retrouver les photos du photomaton, je t'invite à te <Link onClick={handleShow}> connecter .</Link></div>
+                <div className="d-flex whiteText justify-content-center align-items-center taille tailleMobile"> <span>Si tu veux retrouver les photos du photomaton, je t'invite à te <Link onClick={handleShow}> connecter</Link> </span></div>
                 <Connexion show={showLoginModal} handleClose={handleClose} />
 
             </>

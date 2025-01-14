@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 
 const CGU = ({ show, handleClose }) => {
   return (
-    <Modal show={show} onHide={handleClose} size="lg">
+    <Modal show={show} onHide={handleClose} dialogClassName="modal-90w" size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Conditions Générales d'Utilisation</Modal.Title>
       </Modal.Header>

@@ -26,7 +26,6 @@ const GuestBook = () => {
     e.preventDefault();
     try {
       await SendMessage(message);
-      console.log("Message envoyé :", message);
       fetchMessages();
       alert("Votre petit mot à bien été ajouté");
 
@@ -43,7 +42,7 @@ const GuestBook = () => {
   const fetchMessages = async () => {
     try {
       const response = await fetchMessagesAPI();
-      console.log("Messages récupérés :", response.data);
+   
       setAllMessages(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des messages :", error);

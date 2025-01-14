@@ -65,7 +65,7 @@ const PhotographePage = () => {
       };
     
       const addComment = async () => {
-        console.log(data)
+ 
         try {
           if (!data.IdMedia || !data.TextCommentaire.trim()) {
             alert("Veuillez sélectionner une photo et saisir un commentaire !");
@@ -86,12 +86,12 @@ const PhotographePage = () => {
       const handleRemoveComment = async(IdCommentaire) => {
         try {
           const response = await DeleteCommentaireAPI(IdCommentaire)
-          console.log(response)
+   
           if (response.status === 200) {
             fetchComments(); // Rafraîchir les commentaires après suppression
           } else {
             console.error("Erreur lors de la suppression du commentaire");
-            console.log(IdCommentaire)
+       
           }
         } catch (error) {
           
@@ -128,7 +128,7 @@ const PhotographePage = () => {
         </Container>
       ) : (
         <span className="d-flex whiteText justify-content-center align-items-center taille">
-          Pas encore de photo ici ? Inscris-toi et télécharge tes photos du mariage !
+          Un peu de patience, les photos arriverons bientôt !
         </span>
       )}
 
