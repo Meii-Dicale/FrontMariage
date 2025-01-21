@@ -66,6 +66,9 @@ const MonCompte = () => {
   const handleNavigateMedia = () => {
     navigate('/AjoutPhoto');
   }
+  const handleNavigateFav = () => {
+    navigate('/MesFavoris');
+  }
 
   useEffect(() => {
     if (user) {
@@ -74,9 +77,6 @@ const MonCompte = () => {
   }, [user, changeInfo]);
   
 
-//   if (!user || !UserInfo.NameUser) {
-//     return <div>Chargement...</div>;
-//   }
   return (
     <>
       <Container className="d-flex justify-content-center moncompte">
@@ -170,6 +170,7 @@ const MonCompte = () => {
           </div>)}
           <div className="bouttonPhoto d-flex flex-column">
             <Button className="mt-5 ajoutBoutton" onClick={handleNavigateMedia}>Ajouter mes photos</Button>
+            <Button className="mt-5 ajoutBoutton" onClick={handleNavigateFav}>Mes photo préférés </Button>
             <Button className="mt-5 ajoutBoutton"onClick={handleNavigateBook}>Écrire dans le livre d'or</Button>
           </div>
         </div>

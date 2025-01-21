@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
-import { GetPrivatePhotoAPI } from "../src/Services/UploadPhotosService";
-import { Container, Modal } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { GetPrivatePhotoAPI, PushPublicAPI } from "../src/Services/UploadPhotosService";
+import { Button, Container, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Authcontext from "../src/Context/Authcontext";
+
 const SecretPage = () => {
 
     const [AllPhotos, setAllPhotos] = useState([]);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const { user } = useContext(Authcontext);
   
     const fetchAllPhoto = async () => {
       try {
@@ -30,6 +33,21 @@ const SecretPage = () => {
     useEffect(() => {
       fetchAllPhoto();
     }, []);
+    const PushPublic = async (IdMedia) => {
+      try {
+        const response = await PushPublicAPI(IdMedia)
+        if (response.status === 200) {
+          window.location.reload();
+        } else {
+          console.error("Erreur");
+        }
+        
+      } catch (error) {
+        
+        console.error("Erreur : ", error);
+      }
+  
+    }
   
     return (
       <>
@@ -65,6 +83,8 @@ const SecretPage = () => {
               />
             )}
           </Modal.Body>
+          {user.RoleUser == 1 ? ( <Button onClick={()=>PushPublic(selectedPhoto.IdMedia)}>Rendre Publique </Button>) : null} 
+
         </Modal>
       </>
     );

@@ -359,6 +359,12 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
   max-height: 500px; /* Définir une hauteur maximale */
   object-fit: contain; /* Permet d'ajuster l'image sans la déformer */
   margin: 0 auto; /* Centrer l'image dans son conteneur */
+  min-height: 500px;
+}
+
+.carousel-item{
+  padding-bottom: 50px;
+ 
 }
 
 /* ////////////////////PAGE INVITE && Photographe //////////////////*/
@@ -405,7 +411,8 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
 
 
 .photo-large {
-  width: 100%;
+  
+  max-width: 60%;
   height: auto;
   object-fit: contain; /* Garde le ratio original de la photo */
 }
@@ -436,7 +443,37 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
 .modal-90w{
   max-width: 90%;
   margin: 0 auto;
+
+  
 }
+.modales{
+  max-height: 95vh;
+}
+
+.photo-thumbnail-container {
+  position: relative;
+  display: inline-block;
+}
+
+.favoris-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.actived {
+  color: red;
+  border-color: #d923d9;
+  background: fixed;
+  background: linear-gradient(to bottom right, #d923d9, #ff00ff);
+}
+
 
 
 /* ////////////////////////////////////RESPONSIVE///////////////////////////////////////////////// */

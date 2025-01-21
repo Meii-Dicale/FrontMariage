@@ -2,14 +2,21 @@ import React, { useEffect, useState } from "react";
 import "../src/App.css";
 import { fetchMessagesAPI } from "../src/Services/GuestBookService";
 import CGU from "./CGU";
+import { useLocation } from "react-router-dom";
 const Footer = () => {
   const [messages, setMessages] = useState([]);
   const [showCGU, setShowCGU] = useState(false);
+  const [randomQuote, setRandomQuote] = useState("");
+  const location = useLocation()
 
   const fetchMessages = async () => {
     try {
       const response = await fetchMessagesAPI();
-      setMessages(response.data || []); // Assurez-vous que `response.data` est un tableau
+      setRandomQuote (
+        response.data.length > 0
+          ? response.data[Math.floor(Math.random() * response.data.length)]
+          : null);
+      setMessages(response.data ); 
     } catch (error) {
       console.error("Erreur lors de la récupération des messages :", error);
     }
@@ -17,19 +24,23 @@ const Footer = () => {
 
   useEffect(() => {
     fetchMessages();
+    
   }, []);
 
   // Sélection aléatoire d'une citation
-  const randomQuote =
+  useEffect(() =>{
+    setRandomQuote (
     messages.length > 0
       ? messages[Math.floor(Math.random() * messages.length)]
-      : null;
+      : null);
+  }, [location])
+
 
   return (
     <footer className="footer bg-black text-white py-4">
       <div className="container">
         <div className="row">
-          {/* Section Citations */}
+          
           <div className="col-md-9 text-center">
             {randomQuote ? (
               <p>
@@ -42,7 +53,6 @@ const Footer = () => {
             )}
           </div>
 
-          {/* Lien pour afficher les CGU */}
           <div className="col-md-1 text-center">
             <a
               onClick={() => setShowCGU(true)}
@@ -59,7 +69,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Modal CGU */}
+
       <CGU show={showCGU} handleClose={() => setShowCGU(false)} />
     </footer>
   );

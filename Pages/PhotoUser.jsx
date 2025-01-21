@@ -1,11 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { GetPhotoByUserAPI } from "../src/Services/UploadPhotosService";
+import { useContext, useEffect, useState, useRef } from "react";
+import { GetPhotoByUserAPI, PushPrivateAPI } from "../src/Services/UploadPhotosService";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { FacebookShareButton, FacebookIcon, FacebookMessengerIcon, FacebookMessengerShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton} from "react-share";
 import Authcontext from "../src/Context/Authcontext";
 import AjouterCommentaireAPI, { DeleteCommentaireAPI, GetCommentaireAPI } from "../src/Services/Commentaires";
 
+import { useReactToPrint } from "react-to-print";
+import FileSaver from 'file-saver';
+import axios from 'axios';
+import Connexion from "../Composant/ModuleConnexion";
+import Favoris from "../src/Services/Favoris";
 const PhotoUser = () => {
     const [AllPhotos, setAllPhotos] = useState([]);
     const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -13,12 +18,36 @@ const PhotoUser = () => {
     const IdUser = useParams()
     const { user } = useContext(Authcontext);
     const [comments, setComments] = useState([]);
+    const [filter, setFilter] = useState(""); // État pour le filtre
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [IdFavoris, setIdFavoris] = useState();
+
     const [data, setData] = useState({
       IdMedia: null,
       TextCommentaire: "",
       IdUser: user?.IdUser,
     });
+    const [showConnexionModal, setShowConnexionModal] = useState(false);
 
+    const handleShowConnexion = () => setShowConnexionModal(true);
+    const handleCloseConnexion = () => setShowConnexionModal(false);
+
+// IMPRESSION //
+
+const contentRef = useRef(null);
+const reactToPrint = useReactToPrint({contentRef})
+
+// téléchargement de la photo //
+
+const downloadImage = async (url) => {
+
+  try {
+      const response = await axios.get(url, { responseType: 'blob' });
+      FileSaver.saveAs(response.data, `${selectedPhoto.PathMedia}`);
+  } catch (error) {
+      console.error("Erreur lors du téléchargement : ", error);
+  }
+};
     const fetchAllPhoto = async () => {
         try {
           const response = await GetPhotoByUserAPI(IdUser.IdUser); 
@@ -28,15 +57,60 @@ const PhotoUser = () => {
         }
       };
     
-      const handleShow = (photo) => {   
+      const handleShow = (photo) => {
         setSelectedPhoto(photo);
         setShowModal(true);
+        searchFavorites(photo); // Passez la photo directement
       };
-    
+      
+      const searchFavorites = async (selectedPhoto) => {
+        if (!selectedPhoto || !user) return; // Vérifie que les données nécessaires sont présentes
+        try {
+          const response = await Favoris.IsFavorisAPI(user.IdUser, selectedPhoto.IdMedia);
+          console.log(response.data);
+          if (response.data.length > 0) {
+            setIdFavoris(response.data.IdFavoris);
+            setIsFavorite(true);
+            
+          } else {
+            setIsFavorite(false);
+            
+          }
+        } catch (error) {
+          console.error("Erreur lors de la recherche des favoris :", error);
+        }
+      };
+      
+      
+      const handleAddFavorite = async () => {
+        if (!selectedPhoto && !user) return; // Vérifiez que les données nécessaires sont présentes
+        try {
+          const response = await Favoris.AddFavorisAPI({
+            IdMedia: selectedPhoto.IdMedia,
+            IdUser: user.IdUser,
+          });
+          if (response.status) {
+            console.log("Favoris :", response.data);
+            setIsFavorite(true);
+            setIdFavoris(response.data.IdFavoris); // Mettez à jour l'ID du favori
+            searchFavorites(selectedPhoto)
+            console.log(isFavorite);
+            
+          }
+        } catch (error) {
+          console.error("Erreur lors de l'ajout aux favoris :", error);
+        }
+      };
+      
+
+      
+      
+      
       const handleClose = () => {
         setShowModal(false);
         setSelectedPhoto(null);
       };
+      
 
 
   const fetchComments = async () => {
@@ -81,12 +155,22 @@ const PhotoUser = () => {
     }
 
   }
+  const applyFilter = (filterType) => {
+    setFilter(filterType);
+  };
       useEffect(() => {
         fetchAllPhoto();
       }, []);
       useEffect(() => {
         fetchComments();
       }, [selectedPhoto]);
+      useEffect(() => {
+        if (selectedPhoto) {
+          searchFavorites(selectedPhoto);
+        }
+      }, [selectedPhoto]);
+      
+      
     
       // pour partager sur les réseaux il faut une URL 
     
@@ -95,6 +179,24 @@ const PhotoUser = () => {
           ? `http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`
           : "";
       };
+      const PushPrivate = async (IdMedia) => {
+        try {
+          const response = await PushPrivateAPI(IdMedia)
+          if (response.status === 200) {
+            window.location.reload();
+          } else {
+            console.error("Erreur");
+          }
+          
+        } catch (error) {
+          
+          console.error("Erreur : ", error);
+        }
+    
+      }
+
+
+
     return(
         <>
         
@@ -132,50 +234,82 @@ const PhotoUser = () => {
         <Modal.Body className="ModalColor">
           {selectedPhoto && (
             <div className="photo-commentaires">
+
               <img
+              ref={contentRef} 
                 className="photo-large"
                 src={`http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`}
                 alt=""
+                style={{ filter }} // Appliquer le filtre
               />
+            {user.IdUser ?  (<Button
+  className={`favoris-btn ${isFavorite ? 'actived' : ''}`}
+  onClick={handleAddFavorite}
+>
+  ❤️
+</Button> ) : null}
+
               <div className="zone-commentaires">
-                <div className="all-commentaires">
+              
+
+                <div className="all-commentaires mt-3">
                   {comments.length > 0 ? (
                     comments.map((comment, index) => (
                       <div key={index} className="commentaire">
                         <div className="d-flex flex-row gap-3">
-                        <strong>{comment.NameUser}:</strong> {comment.TextCommentaire}
+                          <strong>{comment.NameUser}:</strong> {comment.TextCommentaire}
                         </div>
-                        {comment.IdUser === user.IdUser ? (   <button
-                                    type="button"
-                                    className="btn btn-danger btn-sm top-0 end-0"
-                                    onClick={() => handleRemoveComment(comment.IdCommentaire)}
-                                >X</button>): null}
+                        {(comment.IdUser === user.IdUser || user.RoleUser === "1") && (
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm top-0 end-0"
+                            onClick={() => handleRemoveComment(comment.IdCommentaire)}
+                          >
+                            X
+                          </button>
+                        )}
                       </div>
                     ))
                   ) : (
                     <p>Pas encore de commentaires.</p>
                   )}
                 </div>
-                {!user.IdUser ? (<span>Connectez-vous pour laisser un commentaire</span>) : (<Form className="mt-5"onSubmit={(e) => e.preventDefault()}>
-                  <Form.Group >
-                    <Form.Label>Laisser un commentaire</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Votre commentaire..."
-                      value={data.TextCommentaire}
-                      onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
-                      maxLength={250}
-                    />
-                  </Form.Group>
-                  <Button onClick={addComment} className="mt-2">
-                    Envoyer
-                  </Button>
-                </Form>)}
+
+                {user.IdUser ? (
+                  <Form className="mt-5" onSubmit={(e) => e.preventDefault()}>
+                    <Form.Group>
+                      <Form.Label>Laisser un commentaire</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Votre commentaire..."
+                        value={data.TextCommentaire}
+                        onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
+                        maxLength={250}
+                      />
+                    </Form.Group>
+                    <Button onClick={addComment} className="mt-2">Envoyer</Button>
+                
+
+                    {user.RoleUser === 1 && (
+                      <Button onClick={() => PushPrivate(selectedPhoto.IdMedia)}>Rendre Privé</Button>
+                    )}
+                  </Form>
+                ) : (
+                  <span> <span
+                  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={handleShowConnexion}
+              >
+                  connectez-vous
+              </span> pour laisser un commentaire</span>
+                )}
+                            <Connexion show={showConnexionModal} handleClose={handleCloseConnexion} />
+
               </div>
             </div>
           )}
         </Modal.Body>
-        <Modal.Title className="ModalColor2 icon-zone">
+        <Modal.Title className="ModalColor2 icon-zone d-flex flex-column">
+          <div className="d-flex ">
           Partagez cette photo :
           <FacebookShareButton url={getPhotoURL()}>
             <FacebookIcon className="icon" />
@@ -189,7 +323,29 @@ const PhotoUser = () => {
           <WhatsappShareButton url={getPhotoURL()}>
             <WhatsappIcon className="icon" />
           </WhatsappShareButton>
+          </div>
+          <div className="d-flex gap-3 flex-wrap">     
+            <span> Ajouter un filtre :</span> 
+                 <Button className="btn btn-pink" onClick={() => applyFilter("grayscale(100%)")}>Noir et blanc</Button>
+                <Button className="btn btn-pink" onClick={() => applyFilter("sepia(100%)")}>Sepia</Button>
+                <Button className="btn btn-pink" onClick={() => applyFilter("")}>Sans filtre</Button>
+                <br/>
+                <Button className="btn btn-pink"  onClick={()=> reactToPrint()}>Imprimer la photo</Button>
+                {selectedPhoto && (
+
+  
+  <Button className="btn btn-pink" onClick={() => {
+    downloadImage(`http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`)}}>Télécharger une image</Button>
+
+)}
+
+
+
+                
+          </div>
+             
         </Modal.Title>
+       
       </Modal>
         </>
     

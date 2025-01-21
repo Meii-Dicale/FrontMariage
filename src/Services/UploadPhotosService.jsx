@@ -26,5 +26,12 @@ function GetPrivatePhotoAPI(){
 function GetPhotoByUserAPI(IdUser) {
     return axios.get (`http://${import.meta.env.VITE_IP}:3001/api/Media/UserPhoto/${IdUser}`)
 }
+function PushPrivateAPI(IdMedia){
+    return axios.put(`http://${import.meta.env.VITE_IP}:3001/api/Media/PushPrivate/${IdMedia}`)
+}
+function PushPublicAPI(IdMedia){
+    return axios.put(`http://${import.meta.env.VITE_IP}:3001/api/Media/PushPublic/${IdMedia}`)
+}
+
 export default UploadPhotoAPI;
-export {GetPublicPhotosAPI, GetMesPhotosAPI, DeletePhotoAPI, GetPhotosAdminAPI, GetPrivatePhotoAPI, GetPhotoByUserAPI};
+export {GetPublicPhotosAPI, GetMesPhotosAPI, DeletePhotoAPI, GetPhotosAdminAPI, GetPrivatePhotoAPI, GetPhotoByUserAPI, PushPrivateAPI, PushPublicAPI};

@@ -1,45 +1,33 @@
-// https://www.npmjs.com/package/react-to-print
-
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { GetPublicPhotosAPI, PushPrivateAPI } from "../src/Services/UploadPhotosService";
-import { Button, Container, Form } from "react-bootstrap";
-import Modal from 'react-bootstrap/Modal';
-import { Link } from "react-router-dom";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  FacebookMessengerIcon,
-  FacebookMessengerShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
-} from "react-share";
-import AjouterCommentaireAPI, { DeleteCommentaireAPI, GetCommentaireAPI } from "../src/Services/Commentaires";
+import { useContext, useEffect, useState, useRef } from "react";
+import { GetPhotoByUserAPI, PushPrivateAPI } from "../src/Services/UploadPhotosService";
+import { Button, Container, Form, Modal } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { FacebookShareButton, FacebookIcon, FacebookMessengerIcon, FacebookMessengerShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton} from "react-share";
 import Authcontext from "../src/Context/Authcontext";
+import AjouterCommentaireAPI, { DeleteCommentaireAPI, GetCommentaireAPI } from "../src/Services/Commentaires";
 
 import { useReactToPrint } from "react-to-print";
 import FileSaver from 'file-saver';
 import axios from 'axios';
 import Connexion from "../Composant/ModuleConnexion";
 import Favoris from "../src/Services/Favoris";
+const MesFavoris = () => {
+    const [AllPhotos, setAllPhotos] = useState([]);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const IdUser = useParams()
+    const { user } = useContext(Authcontext);
+    const [comments, setComments] = useState([]);
+    const [filter, setFilter] = useState(""); // État pour le filtre
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [IdFavoris, setIdFavoris] = useState();
 
-const PhotoInvite = () => {
-  const { user } = useContext(Authcontext);
-  const [AllPhotos, setAllPhotos] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [filter, setFilter] = useState(""); // État pour le filtre
-  const [data, setData] = useState({
-    IdMedia: null,
-    TextCommentaire: "",
-    IdUser: user?.IdUser,
-  });
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [IdFavoris, setIdFavoris] = useState();
-
-  const [showConnexionModal, setShowConnexionModal] = useState(false);
+    const [data, setData] = useState({
+      IdMedia: null,
+      TextCommentaire: "",
+      IdUser: user?.IdUser,
+    });
+    const [showConnexionModal, setShowConnexionModal] = useState(false);
 
     const handleShowConnexion = () => setShowConnexionModal(true);
     const handleCloseConnexion = () => setShowConnexionModal(false);
@@ -60,67 +48,72 @@ const downloadImage = async (url) => {
       console.error("Erreur lors du téléchargement : ", error);
   }
 };
-  
-  const fetchAllPhoto = async () => {
-    try {
-      const response = await GetPublicPhotosAPI();
-      setAllPhotos(response.data || []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const fetchAllPhoto = async () => {
+        try {
+          const response = await GetPhotoByUserAPI(IdUser.IdUser); 
+          setAllPhotos(response.data );
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      const handleShow = (photo) => {
+        setSelectedPhoto(photo);
+        setShowModal(true);
+        searchFavorites(photo); // Passez la photo directement
+      };
+      
+      const searchFavorites = async (selectedPhoto) => {
+        if (!selectedPhoto || !user) return; // Vérifie que les données nécessaires sont présentes
+        try {
+          const response = await Favoris.IsFavorisAPI(user.IdUser, selectedPhoto.IdMedia);
+          console.log(response.data);
+          if (response.data.length > 0) {
+            setIdFavoris(response.data.IdFavoris);
+            setIsFavorite(true);
+            
+          } else {
+            setIsFavorite(false);
+            
+          }
+        } catch (error) {
+          console.error("Erreur lors de la recherche des favoris :", error);
+        }
+      };
+      
+      
+      const handleAddFavorite = async () => {
+        if (!selectedPhoto && !user) return; // Vérifiez que les données nécessaires sont présentes
+        try {
+          const response = await Favoris.AddFavorisAPI({
+            IdMedia: selectedPhoto.IdMedia,
+            IdUser: user.IdUser,
+          });
+          if (response.status) {
+            console.log("Favoris :", response.data);
+            setIsFavorite(true);
+            setIdFavoris(response.data.IdFavoris); // Mettez à jour l'ID du favori
+            searchFavorites(selectedPhoto)
+            console.log(isFavorite);
+            
+          }
+        } catch (error) {
+          console.error("Erreur lors de l'ajout aux favoris :", error);
+        }
+      };
+      
 
-  const handleShow = (photo) => {
-    setSelectedPhoto(photo);
-    setShowModal(true);
-    searchFavorites(photo); // Passez la photo directement
-  };
-  
-  const searchFavorites = async (selectedPhoto) => {
-    if (!selectedPhoto || !user) return; // Vérifie que les données nécessaires sont présentes
-    try {
-      const response = await Favoris.IsFavorisAPI(user.IdUser, selectedPhoto.IdMedia);
-      console.log(response.data);
-      if (response.data.length > 0) {
-        setIdFavoris(response.data.IdFavoris);
-        setIsFavorite(true);
-        
-      } else {
-        setIsFavorite(false);
-        
-      }
-    } catch (error) {
-      console.error("Erreur lors de la recherche des favoris :", error);
-    }
-  };
-  
-  
-  const handleAddFavorite = async () => {
-    if (!selectedPhoto && !user) return; // Vérifiez que les données nécessaires sont présentes
-    try {
-      const response = await Favoris.AddFavorisAPI({
-        IdMedia: selectedPhoto.IdMedia,
-        IdUser: user.IdUser,
-      });
-      if (response.status) {
-        console.log("Favoris :", response.data);
-        setIsFavorite(true);
-        setIdFavoris(response.data.IdFavoris); // Mettez à jour l'ID du favori
-        searchFavorites(selectedPhoto)
-        console.log(isFavorite);
-        
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'ajout aux favoris :", error);
-    }
-  };
+      
+      
+      
+      const handleClose = () => {
+        setShowModal(false);
+        setSelectedPhoto(null);
+        fetchFavoris(user.IdUser)
 
-  const handleClose = () => {
-    setShowModal(false);
-    setSelectedPhoto(null);
-    setComments([]);
-    setFilter(""); // Réinitialiser le filtre à la fermeture du modal
-  };
+      };
+      
+
 
   const fetchComments = async () => {
     if (!selectedPhoto || !selectedPhoto.IdMedia) return;
@@ -131,6 +124,7 @@ const downloadImage = async (url) => {
       console.error(error);
     }
   };
+    
 
   const addComment = async () => {
     try {
@@ -150,75 +144,102 @@ const downloadImage = async (url) => {
       console.error("Erreur : ", error);
     }
   };
-
-  const handleRemoveComment = async (IdCommentaire) => {
+  const handleRemoveComment = async(IdCommentaire) => {
     try {
-      const response = await DeleteCommentaireAPI(IdCommentaire);
+      const response = await DeleteCommentaireAPI(IdCommentaire)
       if (response.status === 200) {
         fetchComments(); // Rafraîchir les commentaires après suppression
       } else {
         console.error("Erreur lors de la suppression du commentaire");
       }
     } catch (error) {
-      console.error("Erreur : ", error);
+      
     }
-  };
 
-  const PushPrivate = async (IdMedia) => {
-    try {
-      const response = await PushPrivateAPI(IdMedia);
-      if (response.status === 200) {
-        window.location.reload();
-      } else {
-        console.error("Erreur");
-      }
-    } catch (error) {
-      console.error("Erreur : ", error);
-    }
-  };
-
+  }
   const applyFilter = (filterType) => {
     setFilter(filterType);
   };
+      useEffect(() => {
+        fetchAllPhoto();
+      }, []);
+      useEffect(() => {
+        fetchComments();
+      }, [selectedPhoto]);
+      useEffect(() => {
+        if (selectedPhoto) {
+          searchFavorites(selectedPhoto);
+        }
+      }, [selectedPhoto]);
+      
+      
+    
+      // pour partager sur les réseaux il faut une URL 
+    
+      const getPhotoURL = () => {
+        return selectedPhoto
+          ? `http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`
+          : "";
+      };
+      const PushPrivate = async (IdMedia) => {
+        try {
+          const response = await PushPrivateAPI(IdMedia)
+          if (response.status === 200) {
+            window.location.reload();
+          } else {
+            console.error("Erreur");
+          }
+          
+        } catch (error) {
+          
+          console.error("Erreur : ", error);
+        }
+    
+      }
 
-  const getPhotoURL = () => {
-    return selectedPhoto
-      ? `http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`
-      : "";
-  };
 
-  useEffect(() => {
-    fetchAllPhoto();
-  }, []);
 
-  useEffect(() => {
-    fetchComments();
-  }, [selectedPhoto]);
+    const fetchFavoris = async () => {
+        try {
+            const response = await Favoris.FetchFavorisAPI(user.IdUser)
+            setAllPhotos(response.data )
+            
+        } catch (error) {
+            console.error(error)
+            
+        }
+    }
 
-  return (
-    <>
-      {AllPhotos.length > 0 ? (
-        <Container className="container-invite">
-          <div  className="photo-grid">
-            {AllPhotos.map((photo) => (
-              <img
-                className="photo-thumbnail"
-                key={photo.IdMedia}
-                src={`http://${import.meta.env.VITE_IP}:3001/api/Media/${photo.PathMedia}`}
-                alt=""
-                onClick={() => handleShow(photo)}
+    useEffect(() => {
+        fetchFavoris(user.IdUser)
+    }, [])
+    return(
+        <>
+        
+  
+      
+        {AllPhotos.length >0 ? ( <Container className="container-invite">
+            {AllPhotos.length > 0 ? (<h1 className="whiteText ">Mes photos préférées</h1> ) : (null)}
+
+            <div className="photo-grid">
+              {AllPhotos.map((photo) => (
+                <img
+                  
+                  className="photo-thumbnail"
+                  key={photo.IdMedia}
+                  src={`http://${import.meta.env.VITE_IP}:3001/api/Media/${photo.PathMedia}`}
+                  alt=""
+                  onClick={() => handleShow(photo)}
+                />
+              ))}
+            </div>
+          </Container>) : ( <span className="d-flex whiteText justify-content-center align-items-center taille">
+                        Vas vite mettre des photos en favoris !
+                    </span>)}
          
-              />
-            ))}
-          </div>
-        </Container>
-      ) : (
-        <span className="d-flex whiteText justify-content-center align-items-center taille">
-          Pas encore de photo ici ? Inscris-toi et télécharge tes photos du mariage !
-        </span>
-      )}
-
-<Modal show={showModal} onHide={handleClose} dialogClassName="modal-90w" centered>
+    
+          {/* Modal */}
+          <Modal show={showModal} onHide={handleClose} dialogClassName="modal-90w" centered>
         <Modal.Header className="ModalColor2 icon-zone" closeButton>
           {selectedPhoto && (
             <Modal.Title className="icon-zone">
@@ -342,8 +363,8 @@ const downloadImage = async (url) => {
         </Modal.Title>
        
       </Modal>
-    </>
-  );
-};
-
-export default PhotoInvite;
+        </>
+    
+    )
+}
+export default MesFavoris

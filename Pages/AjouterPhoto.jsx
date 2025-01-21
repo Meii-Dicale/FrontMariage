@@ -49,7 +49,6 @@ const AjoutPhoto = () => {
         formData.append("IdUser", user.IdUser);
 
         try {
-            // Appeler le service API
             const response = await UploadPhotoAPI(formData);
 
             alert("Photos téléchargées avec succès !");
@@ -109,7 +108,7 @@ const AjoutPhoto = () => {
             <form className="whiteText mt-5" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="photoInput" className="form-label">
-                        Sélectionnez vos photos :
+                        Sélectionnez vos photos <small>100 max</small>:
                     </label>
                     <input
                         type="file"

@@ -55,7 +55,12 @@ const HomePage = () => {
 
     return (
         <>
-            <Carousel ref={carouselRef} interval={3000} className='mt-5'>
+            <Carousel 
+                ref={carouselRef}
+                interval={3000} // 3 secondes entre les défilements
+                pause={false}
+                indicators={false} // Supprime les indicateurs
+                className="mt-5">
                 {photos.map((photo, index) => (
                     <Carousel.Item key={index}>
                         <img
