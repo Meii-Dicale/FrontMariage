@@ -24,6 +24,7 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto gap-5 mobile-nav">
+              <Link className="nav-link" to="/LaDemande">La demande</Link>
               <Link className="nav-link" to="/Photographe">Photographe</Link>
               <Link className="nav-link" to="/Photobooth">PhotoBooth</Link>
               <Link className="nav-link" to="/InvitePhotos">Invités</Link>

@@ -300,7 +300,17 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
   .footer a:hover {
     color: #ff00ff; /* Couleur rose vif au survol */
   }
+/* /////////////////////// LA DEMANDE ///////////////////*/
 
+.ImgDemande{
+  width: 60vh;
+  margin: 1%;
+}
+.txtDemande{
+  margin: 1%;
+  font-size: 1.2rem;
+
+}
 /* /////////////////// Galerie Invite /////////////////// */
 .galeriePhotoInvite{
   max-width: 50%;
@@ -549,6 +559,14 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
       height: 80vh;
       padding: 10px;
       
+    }
+    .mobileDemande{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .ImgDemande{
+      width: 90vw;
     }
 
 

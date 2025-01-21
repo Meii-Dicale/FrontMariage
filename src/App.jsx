@@ -21,6 +21,7 @@ import ResetPassword from '../Pages/ResetPassword';
 import MdpOublie from '../Pages/MDPoublie';
 import PhotoUser from '../Pages/PhotoUser';
 import MesFavoris from '../Pages/MesFavoris';
+import LaDemande from '../Pages/LaDemande';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
               <Route path='/reset-password/:token' element={<ResetPassword />}></Route>
               <Route path='/mdpOublie' element={<MdpOublie />}></Route>
               <Route path='/photo/:IdUser' element={<PhotoUser />}></Route>
+              <Route path='/LaDemande' element={<LaDemande />}></Route>
 
               {/* Route disponible uniquement si connecté  */}
               <Route path='/MonCompte' element={<MonCompte />}></Route>
