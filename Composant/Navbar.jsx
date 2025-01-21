@@ -18,7 +18,9 @@ const NavBar = () => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary textNeon transparenceNav mobile-nav">
         <Container>
-        <Navbar.Brand className='whiteText' href="/">Lorelei & Thomas - 13 Juin 2026</Navbar.Brand>
+        <Navbar.Brand className='whiteText' href="/">
+        <Link className="nav-link" to="/">  Lorelei & Thomas - 13 Juin 2026</Link>
+      </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto gap-5 mobile-nav">

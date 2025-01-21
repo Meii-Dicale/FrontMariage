@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { GetPublicPhotosAPI, PushPrivateAPI } from "../src/Services/UploadPhotosService";
 import { Button, Container, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -38,6 +38,7 @@ const PhotoInvite = () => {
   });
   const [isFavorite, setIsFavorite] = useState(false);
   const [IdFavoris, setIdFavoris] = useState();
+  const navigate = useNavigate()
 
   const [showConnexionModal, setShowConnexionModal] = useState(false);
 
@@ -214,7 +215,7 @@ const downloadImage = async (url) => {
         </Container>
       ) : (
         <span className="d-flex whiteText justify-content-center align-items-center taille">
-          Pas encore de photo ici ? Inscris-toi et télécharge tes photos du mariage !
+          Pas encore de photo ici ? &nbsp;<Link to="/Inscription">Inscris-toi</Link>&nbsp; et télécharge tes photos du mariage !
         </span>
       )}
 
