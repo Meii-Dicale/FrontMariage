@@ -301,16 +301,16 @@ https://blog.dorianguilmain.com/comment-creer-un-effet-neon-en-css/
     color: #ff00ff; /* Couleur rose vif au survol */
   }
 /* /////////////////////// LA DEMANDE ///////////////////*/
-
-.ImgDemande{
-  width: 60vh;
-  margin: 1%;
+.videmande {
+  width: 332px; /* Prend toute la largeur disponible */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto; /* Centrage sur l'axe vertical si nécessaire */
 }
-.txtDemande{
-  margin: 1%;
-  font-size: 1.2rem;
 
-}
+
+
 /* /////////////////// Galerie Invite /////////////////// */
 .galeriePhotoInvite{
   max-width: 50%;

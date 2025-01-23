@@ -170,7 +170,14 @@ const downloadImage = async (url) => {
         }
       }, [selectedPhoto]);
       
-      
+      useEffect(() => {
+        if (selectedPhoto) {
+          setData((prevData) => ({
+            ...prevData,
+            IdMedia: selectedPhoto.IdMedia,
+          }));
+        }
+      }, [selectedPhoto]);
     
       // pour partager sur les réseaux il faut une URL 
     
@@ -275,26 +282,25 @@ const downloadImage = async (url) => {
                   )}
                 </div>
 
-                {user.IdUser ? (
-                  <Form className="mt-5" onSubmit={(e) => e.preventDefault()}>
-                    <Form.Group>
-                      <Form.Label>Laisser un commentaire</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Votre commentaire..."
-                        value={data.TextCommentaire}
-                        onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
-                        maxLength={250}
-                      />
-                    </Form.Group>
-                    <Button onClick={addComment} className="mt-2">Envoyer</Button>
-                
-
-                    {user.RoleUser === 1 && (
-                      <Button onClick={() => PushPrivate(selectedPhoto.IdMedia)}>Rendre Privé</Button>
-                    )}
-                  </Form>
-                ) : (
+           
+                {user.IdUser && selectedPhoto ? (<>
+                 <Form className="mt-5" onSubmit={(e) => e.preventDefault()}>
+                 <Form.Group>
+                   <Form.Label>Laisser un commentaire</Form.Label>
+                   <Form.Control
+                     type="text"
+                     placeholder="Votre commentaire..."
+                     value={data.TextCommentaire}
+                     onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
+                     maxLength={250}
+                   />
+                 </Form.Group>
+                 <Button onClick={addComment} className="mt-2">Envoyer</Button>
+               </Form>
+                {user.RoleUser === 1 && (
+                  <Button onClick={() => PushPrivate(selectedPhoto.IdMedia)}>Rendre Privé</Button>
+                )}
+                </>) : (
                   <span> <span
                   style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
                   onClick={handleShowConnexion}

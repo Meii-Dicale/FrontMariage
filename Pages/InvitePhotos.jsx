@@ -72,10 +72,12 @@ const downloadImage = async (url) => {
   };
 
   const handleShow = (photo) => {
+    console.log("Photo sélectionnée :", photo);
     setSelectedPhoto(photo);
     setShowModal(true);
-    searchFavorites(photo); // Passez la photo directement
+    searchFavorites(photo);
   };
+  
   
   const searchFavorites = async (selectedPhoto) => {
     if (!selectedPhoto || !user) return; // Vérifie que les données nécessaires sont présentes
@@ -134,23 +136,28 @@ const downloadImage = async (url) => {
   };
 
   const addComment = async () => {
+    console.log("IdMedia :", data.IdMedia);
+    console.log("TextCommentaire :", data.TextCommentaire);
+  
+    if (!data.IdMedia || !data.TextCommentaire.trim()) {
+      alert("Veuillez sélectionner une photo et saisir un commentaire !");
+      return;
+    }
+  
     try {
-      if (!data.IdMedia || !data.TextCommentaire.trim()) {
-        alert("Veuillez sélectionner une photo et saisir un commentaire !");
-        return;
-      }
-
       const response = await AjouterCommentaireAPI(data);
       if (response.status === 200) {
-        setData({ ...data, TextCommentaire: "" }); // Réinitialiser le champ après envoi
+        setData({ ...data, TextCommentaire: "" });
         fetchComments(); // Rafraîchir les commentaires après ajout
       } else {
-        console.error("Erreur lors de l'ajout du commentaire");
+        console.error("Erreur lors de l'ajout du commentaire :", response);
       }
     } catch (error) {
       console.error("Erreur : ", error);
     }
   };
+  
+  
 
   const handleRemoveComment = async (IdCommentaire) => {
     try {
@@ -195,7 +202,15 @@ const downloadImage = async (url) => {
   useEffect(() => {
     fetchComments();
   }, [selectedPhoto]);
-
+  useEffect(() => {
+    if (selectedPhoto) {
+      setData((prevData) => ({
+        ...prevData,
+        IdMedia: selectedPhoto.IdMedia,
+      }));
+    }
+  }, [selectedPhoto]);
+  
   return (
     <>
       {AllPhotos.length > 0 ? (
@@ -271,26 +286,24 @@ const downloadImage = async (url) => {
                   )}
                 </div>
 
-                {user.IdUser ? (
-                  <Form className="mt-5" onSubmit={(e) => e.preventDefault()}>
-                    <Form.Group>
-                      <Form.Label>Laisser un commentaire</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Votre commentaire..."
-                        value={data.TextCommentaire}
-                        onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
-                        maxLength={250}
-                      />
-                    </Form.Group>
-                    <Button onClick={addComment} className="mt-2">Envoyer</Button>
-                
-
-                    {user.RoleUser === 1 && (
-                      <Button onClick={() => PushPrivate(selectedPhoto.IdMedia)}>Rendre Privé</Button>
-                    )}
-                  </Form>
-                ) : (
+                {user.IdUser && selectedPhoto ? (<>
+                 <Form className="mt-5" onSubmit={(e) => e.preventDefault()}>
+                 <Form.Group>
+                   <Form.Label>Laisser un commentaire</Form.Label>
+                   <Form.Control
+                     type="text"
+                     placeholder="Votre commentaire..."
+                     value={data.TextCommentaire}
+                     onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
+                     maxLength={250}
+                   />
+                 </Form.Group>
+                 <Button onClick={addComment} className="mt-2">Envoyer</Button>
+               </Form>
+                {user.RoleUser === 1 && (
+                  <Button onClick={() => PushPrivate(selectedPhoto.IdMedia)}>Rendre Privé</Button>
+                )}
+                </>) : (
                   <span> <span
                   style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
                   onClick={handleShowConnexion}
