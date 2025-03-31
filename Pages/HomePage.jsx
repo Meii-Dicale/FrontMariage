@@ -1,6 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel';
 import { useState, useEffect, useRef } from 'react';
-import { GetPublicPhotosAPI } from '../src/Services/UploadPhotosService';
+import { GetAllPublicPhotosAPI, GetPublicPhotosAPI } from '../src/Services/UploadPhotosService';
 
 // Fonction pour mélanger un tableau
 const shuffleArray = (array) => {
@@ -20,7 +20,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchPublicPhotos = async () => {
             try {
-                const response = await GetPublicPhotosAPI();
+                const response = await GetAllPublicPhotosAPI();
                 const shuffledPhotos = shuffleArray(response.data);
                 setPhotos(shuffledPhotos);
             } catch (error) {

@@ -14,7 +14,7 @@ export default defineConfig({
         secure: false,
       },
       '/mediacollection': {
-        target: 'http://192.168.0.92:8000', // Deuxième proxy
+        target: 'http://192.168.1.179:8000', // Deuxième proxy
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/mediacollection/, '/api/mediacollection'), // Ajout d'une réécriture si nécessaire

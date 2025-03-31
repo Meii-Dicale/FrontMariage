@@ -58,9 +58,11 @@ const PhotoBooth = () => {
    
    const downloadImage = async (url) => {
    
+    console.log(url)
      try {
          const response = await axios.get(url, { responseType: 'blob' });
-         FileSaver.saveAs(response.data, `${selectedPhoto.PathMedia}`);
+         FileSaver.saveAs(response.data, `${selectedPhoto.original}`);
+         
      } catch (error) {
          console.error("Erreur lors du téléchargement : ", error);
      }
@@ -171,7 +173,7 @@ const PhotoBooth = () => {
   
     const getPhotoURL = () => {
       return selectedPhoto
-        ? `http://192.168.0.61:8000${selectedPhoto.original}`
+        ? `http://${import.meta.env.VITE_IPPHOTOBOOTH}/${selectedPhoto.original}`
         : "";
     };
     const PushPrivate = async (IdMedia) => {
@@ -224,7 +226,7 @@ const PhotoBooth = () => {
         <img
           className="photo-thumbnail"
           key={index}
-          src={`http://192.168.0.92:8000/${photo.thumbnail}`}
+          src={`http://${import.meta.env.VITE_IPPHOTOBOOTH}/${photo.thumbnail}`}
           alt=""
           onClick={() => handleShow(photo)}
         />
@@ -254,69 +256,9 @@ const PhotoBooth = () => {
                 alt=""
                 style={{ filter }} // Appliquer le filtre
               />
-            {user.IdUser ?  (<Button
-  className={`favoris-btn ${isFavorite ? 'actived' : ''}`}
-  onClick={handleAddFavorite}
->
-  ❤️
-</Button> ) : null}
+          
 
-              <div className="zone-commentaires">
-              
 
-                <div className="all-commentaires mt-3">
-                  {comments.length > 0 ? (
-                    comments.map((comment, index) => (
-                      <div key={index} className="commentaire">
-                        <div className="d-flex flex-row gap-3">
-                          <strong>{comment.NameUser}:</strong> {comment.TextCommentaire}
-                        </div>
-                        {(comment.IdUser === user.IdUser || user.RoleUser === "1") && (
-                          <button
-                            type="button"
-                            className="btn btn-danger btn-sm top-0 end-0"
-                            onClick={() => handleRemoveComment(comment.IdCommentaire)}
-                          >
-                            X
-                          </button>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p>Pas encore de commentaires.</p>
-                  )}
-                </div>
-
-                {user.IdUser ? (
-                  <Form className="mt-5" onSubmit={(e) => e.preventDefault()}>
-                    <Form.Group>
-                      <Form.Label>Laisser un commentaire</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Votre commentaire..."
-                        value={data.TextCommentaire}
-                        onChange={(e) => setData({ ...data, TextCommentaire: e.target.value })}
-                        maxLength={250}
-                      />
-                    </Form.Group>
-                    <Button onClick={addComment} className="mt-2">Envoyer</Button>
-                
-
-                    {user.RoleUser === 1 && (
-                      <Button onClick={() => PushPrivate(selectedPhoto.IdMedia)}>Rendre Privé</Button>
-                    )}
-                  </Form>
-                ) : (
-                  <span> <span
-                  style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
-                  onClick={handleShowConnexion}
-              >
-                  connectez-vous
-              </span> pour laisser un commentaire</span>
-                )}
-                            <Connexion show={showConnexionModal} handleClose={handleCloseConnexion} />
-
-              </div>
             </div>
           )}
         </Modal.Body>
@@ -347,7 +289,7 @@ const PhotoBooth = () => {
 
   
   <Button className="btn btn-pink" onClick={() => {
-    downloadImage(`http://${import.meta.env.VITE_IP}:3001/api/Media/${selectedPhoto.PathMedia}`)}}>Télécharger une image</Button>
+    downloadImage(`http://192.168.1.92:8000/${selectedPhoto.original}`)}}>Télécharger une image</Button>
 
 )}
 

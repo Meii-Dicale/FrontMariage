@@ -21,6 +21,7 @@ function Connexion({ show, handleClose }) {
         e.preventDefault();
         try {
             const response = await ConnexionAPI(User)
+            
             localStorage.setItem('token', response.data.token);
             handleClose();
             
@@ -28,6 +29,7 @@ function Connexion({ show, handleClose }) {
                 navigate('/MonCompte');
                 window.location.reload();
             }
+
 
         }
         catch {
