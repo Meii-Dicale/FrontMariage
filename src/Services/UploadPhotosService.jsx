@@ -35,6 +35,9 @@ function PushPrivateAPI(IdMedia){
 function PushPublicAPI(IdMedia){
     return axios.put(`http://${import.meta.env.VITE_IP}:3001/api/Media/PushPublic/${IdMedia}`)
 }
+function GetFavorisAPI(IdUser){
+    return axios.get (`http://${import.meta.env.VITE_IP}:3001/api/Favoris/GetUserFavorite/${IdUser}`)
+}
 
 export default UploadPhotoAPI;
-export {GetPublicPhotosAPI,GetAllPublicPhotosAPI, GetMesPhotosAPI, DeletePhotoAPI, GetPhotosAdminAPI, GetPrivatePhotoAPI, GetPhotoByUserAPI, PushPrivateAPI, PushPublicAPI};
+export {GetFavorisAPI, GetPublicPhotosAPI,GetAllPublicPhotosAPI, GetMesPhotosAPI, DeletePhotoAPI, GetPhotosAdminAPI, GetPrivatePhotoAPI, GetPhotoByUserAPI, PushPrivateAPI, PushPublicAPI};

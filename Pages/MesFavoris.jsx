@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react";
-import { GetPhotoByUserAPI, PushPrivateAPI } from "../src/Services/UploadPhotosService";
+import { GetFavorisAPI, GetPhotoByUserAPI, PushPrivateAPI } from "../src/Services/UploadPhotosService";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { FacebookShareButton, FacebookIcon, FacebookMessengerIcon, FacebookMessengerShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton} from "react-share";
@@ -50,7 +50,8 @@ const downloadImage = async (url) => {
 };
     const fetchAllPhoto = async () => {
         try {
-          const response = await GetPhotoByUserAPI(IdUser.IdUser); 
+          console.log("user",user)
+          const response = await GetFavorisAPI(user.IdUser); 
           setAllPhotos(response.data );
         } catch (error) {
           console.error(error);

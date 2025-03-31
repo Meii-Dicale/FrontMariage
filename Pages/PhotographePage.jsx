@@ -77,6 +77,12 @@ const applyFilter = (filterType) => {
 
     // Gestion du modal
     const handleShow = (photo) => {
+      console.log(photo)
+      setData((prevData) => ({
+        ...prevData,
+        IdMedia: photo.IdMedia
+      }));
+      
       setSelectedPhoto(photo);
       setShowModal(true);
       searchFavorites(photo); // Passez la photo directement
@@ -140,6 +146,8 @@ const applyFilter = (filterType) => {
  
         try {
           if (!data.IdMedia || !data.TextCommentaire.trim()) {
+            console.log(data.IdMedia);
+            console.log(data.TextCommentaire);
             alert("Veuillez sélectionner une photo et saisir un commentaire !");
             return;
           }
